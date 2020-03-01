@@ -1,10 +1,10 @@
 
 /*
 AUTHOR: Wanghley Martins
-DATE: April 11, 2019
+DATE: March 1, 2020
 CONTACT: wanghleys@gmail.com
 */
-#include <TimerOne.h> //Biblioteca usada para interrupção por timer 
+#include <TimerOne.h> //Biblioteca usada para interrupção por timer
 #include <MPU6050.h> //Biblioteca padrão para manipulação na MPU6050
 #include <Wire.h> //Biblioteca de controle do protocolo I²C, usado pelo MPU6050
 #include <SoftwareSerial.h> //Biblioteca de controle bluetooth
@@ -23,7 +23,7 @@ char msg[128];
 
 void setup()
 {
-  /*Comunicação bluetooth: 
+  /*Comunicação bluetooth:
   Módulo - HC-05
   Senha - 1234
   */
@@ -32,7 +32,7 @@ void setup()
   Wire.write(0x6B); //Indica a MPU que a comunicação irá iniciar
   Wire.write(0); //Indica a MPU que quer deixar a comunicação em standby
   Wire.endTransmission(true); // Desabilita a comunicação
-  
+
   Serial.begin(9600);
   Serial.println("Monitoramento Parkinson FABIN 2019!");
   BTSerial.begin(57600);  // HC-05 default speed in AT command more
@@ -42,16 +42,16 @@ void setup()
   //Timer1.pwm(9,512);
   Timer1.attachInterrupt(printData); // Indica a função que será chamada a cada 20.000ms
 
-  /*Sequência de dados: millis()[unsigned long] >> 
+  /*Sequência de dados: millis()[unsigned long] >>
   aX=[float]g\taY=[float]g\taZ=[float]g\t
   gX=[float]º/s\tgY=[float]º/s\t
   gZ=[float]º/s\tTmp=[float]ºC\n*
   Sendo float = 4 Bytes, Cada caractere(simples presente na ASCII em UTF-8) = 1 byte,
   unsigned long = 4 Bytes
-  
+
   Total de floats = 7, Total de unsigned longs = 1, caracteres = 46
   Logo, 7*4 + 4 + 46 = 50+28 = 78 Bytes = 78*8 bits = 624 bits por cada linha
-  em 50Hz, tem-se que 624*50 = 31200 bauds (31200 bits/seg)  
+  em 50Hz, tem-se que 624*50 = 31200 bauds (31200 bits/seg)
   */
   pinMode(BTN,INPUT_PULLUP);
   pinMode(LED,OUTPUT);
@@ -70,7 +70,7 @@ void printData(){
 void loop()
 {
   char carac,carac1;
-  
+
   if(digitalRead(BTN)==LOW){
     if(inicia==true){
       BTSerial.flush();
@@ -112,7 +112,7 @@ void loop()
   int val = BTSerial.read();
   if(val!=-1){
     carac = val;
-    Serial.println(carac); 
+    Serial.println(carac);
   }
   if(carac=='s'){
     Serial.println("Enviando dados..");
@@ -125,14 +125,14 @@ void loop()
         carac1 = val;
         if(carac1=='c'){
           controle=false;
-          Serial.println(val); 
+          Serial.println(val);
         }else{
           BTSerial.write("Invalid code!");
           BTSerial.flush();//Limpar buffer
         }
       }
     }while(controle);
-    
+
     if(carac == 'c' || carac1=='c'){
       Serial.println("Comunicação estabelecida com sucesso!");
       starte = true;
@@ -157,10 +157,10 @@ void blink_send_data(){
   }
 }
 
-//Função que recebe os dados do MPU6050 e 
+//Função que recebe os dados do MPU6050 e
 //faz as conversões do valor bruto para acc = g e gy = º/seg
 void getData(){
-  
+
   //Armazena o valor dos sensores nas variaveis correspondentes
   AcX=Wire.read()<<8|Wire.read();//0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
   AcY=Wire.read()<<8|Wire.read(); //0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
@@ -169,7 +169,7 @@ void getData(){
   GyX=Wire.read()<<8|Wire.read(); //0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
   GyY=Wire.read()<<8|Wire.read(); //0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
   GyZ=Wire.read()<<8|Wire.read(); //0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-  
+
   //Dados recebidos em 2g
   AcX = AcX/16384.0; //Conversão para G
   AcY = AcY/16384.0; //Conversão para G

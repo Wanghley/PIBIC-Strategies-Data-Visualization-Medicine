@@ -1,10 +1,18 @@
 import bluetooth
 import sys
+
+#Subject information
+subject_name = input("Type the name of the subject: ")
+subject_age = int(input("Type the age of the subject: "))
+subject_sex = input("Masculine or Femine subject?(M/F)? ")
+subject_stat = input("Is the subject a detected parkinsonian?[Y or n]: ")
+
 # BT MAC ADDR da raspberry ou do cliente?
 bd_addr = "00:18:E4:40:00:06"
 
 port = 1
 sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+
 while (True):
 	sock.connect((bd_addr, port))
 	print ('Connected')

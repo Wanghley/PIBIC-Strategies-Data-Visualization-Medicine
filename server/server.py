@@ -1,33 +1,18 @@
 import bluetooth
 import csv
 import threading
+import os
+import time
 
-class CreateFile(threading.Thread):
-	def __init__(self,name,age,sex,stat):
-		threading.Thread.__init__(self)
-		self.name = name
-		self.age = age
-		self.sex = sex
-		self.stat=stat
-	def run(self):
-		f = open("/data/"+self.name+".csv","w+")
-		f.close()
-		csv_file = open("/data/"+self.name+".csv",'w',newline='')
-		writer = csv.writer(csv_file,delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		writer.writerow(["name:{}".format(self.name),
-						 "age:{}".format(self.age),
-						 "sex:{}".format(self.sex),
-						 "stat:{}".format(self.stat)])
-		csv_file.close()
-
+csv_file = None
 class SaveData(threading.Thread):
 	def __init__(self,data,file):
 		threading.Thread.__init__(self)
 		self.data = data
 		self.file = file
 	def run(self):
-		csv_file = open(self.file, 'w', newline='')
-		writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		csv_file = open(self.file, 'a', newline='')
+		writer = csv.writer(csv_file)
 		writer.writerow(self.data)
 		csv_file.close()
 
@@ -44,20 +29,24 @@ if __name__ == "__main__":
 	subject_stat = input("Is the subject a detected parkinsonian?[Y or n]: ")
 
 	try:
-		createCSV = CreateFile(subject_name,subject_age,subject_sex,subject_stat)
-		createCSV.run()
-		createCSV.join()
+		if not os.path.exists("data/"):
+			os.makedirs("data/")
+		open("data/{}.csv".format(subject_name), 'w+').close()
+		f = open("data/{}.head".format(subject_name),'w+')
+		f.write("name: {}\n".format(subject_name)+
+			"age: {}\n".format(subject_age)+
+			"sex: {}\n".format(subject_sex)+
+			"parkinsonian? {}\n".format(subject_stat))
+		f.close()
 	except:
 		print("ERROR CREATING CSV DATA FILE!!")
 
-	path = "/data/"+subject_name+".csv"
-
+	path = "data/"+subject_name+".csv"
 	while (True):
 		sock.connect((bd_addr, port))
 		print('Connected')
 		# sock.settimeout(1.0)
-
-		# O que deve ser digitado para iniciar a comunicação?
+		
 		s = input()
 		sock.sendall(s.encode('ASCII'))
 		data = ''
@@ -71,17 +60,22 @@ if __name__ == "__main__":
 
 					if data1 == "ok":
 						sock.sendall('c')
-					elif data1 == "stop" or "stop" in data:
+					elif data1 == "stop" or "stop" in data or "SudoStop" in data:
+						csv_file.close()
+						for i in range(10):
+							print("Saving and finishing data saving..."+str(i))
+							time.sleep(1)
 						break
 					else:
 						dataLine = data1.split(',')
 						saveData = SaveData(list(dataLine),path)
-						saveData.run()
+						saveData.start()
+						saveData.join()
 		except Exception as inst:
 			print(type(inst))  # the exception instance
 			print(inst.args)  # arguments stored in .args
 			print(inst)
-			print("Erro")
+			print("Erro!!!")
 			sock.close()
 
 		sock.close()

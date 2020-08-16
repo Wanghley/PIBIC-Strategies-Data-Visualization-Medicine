@@ -8,6 +8,7 @@ class BluetoothConnect(QtWidgets.QDialog,uic.loadUiType('bluetooth_dialog.ui')[0
         self.setupUi(self)
         self.setWindowTitle("Conexão Dispositivo")
 
+        self.cbDevices = self.findChild(QtWidgets.)
 
         self.btnCancel = self.findChild(QtWidgets.QPushButton,'btnCancel')
         self.btnCancel.clicked.connect(self.close)
@@ -23,6 +24,7 @@ class Main(QtWidgets.QMainWindow):
         self.btnConnect = self.findChild(QtWidgets.QPushButton,'btnConnect')
         self.btnConnect.clicked.connect(
             self.connection)  # Remember to pass the definition/method, not the return value!
+
 
         self.show() # Show the GUI
 

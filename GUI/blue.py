@@ -1,9 +1,8 @@
-import blue
 import bluetooth
 import time
 
 def search():
-    devices = blue.discover_devices(duration=20, lookup_names = True)
+    devices = bluetooth.discover_devices(duration=20, lookup_names = True)
     return devices
 
 def connect(address):

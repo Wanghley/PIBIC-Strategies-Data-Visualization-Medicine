@@ -8,7 +8,9 @@ class BluetoothConnect(QtWidgets.QDialog,uic.loadUiType('bluetooth_dialog.ui')[0
         self.setupUi(self)
         self.setWindowTitle("Conexão Dispositivo")
 
-        self.cbDevices = self.findChild(QtWidgets.)
+        devices = ble.search()
+        self.cbDevices = self.findChild(QtWidgets.QComboBox,'cbOptions')
+        self.cbDevices.addItems(devices)
 
         self.btnCancel = self.findChild(QtWidgets.QPushButton,'btnCancel')
         self.btnCancel.clicked.connect(self.close)

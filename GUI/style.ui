@@ -55,7 +55,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Conectar Dispositivo</string>
+     <string>Conectar</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnStartStop">

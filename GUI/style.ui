@@ -55,7 +55,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Conectar</string>
+     <string>Conectar Dispositivo</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnStartStop">
@@ -76,7 +76,7 @@
      <rect>
       <x>30</x>
       <y>150</y>
-      <width>181</width>
+      <width>301</width>
       <height>16</height>
      </rect>
     </property>
@@ -87,7 +87,7 @@
    <widget class="QPushButton" name="btnSelectLocation">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>30</x>
       <y>180</y>
       <width>111</width>
       <height>41</height>
@@ -100,11 +100,17 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>150</x>
       <y>180</y>
-      <width>131</width>
+      <width>191</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+      <italic>true</italic>
+     </font>
     </property>
     <property name="text">
      <string>local não selecionado</string>
@@ -128,7 +134,7 @@
      <rect>
       <x>30</x>
       <y>250</y>
-      <width>181</width>
+      <width>301</width>
       <height>16</height>
      </rect>
     </property>
@@ -144,6 +150,21 @@
       <width>221</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>IBeamCursor</cursorShape>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="placeholderText">
+     <string>nome completo do paciente</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -176,6 +197,22 @@
       <width>221</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="dateTime">
+     <datetime>
+      <hour>0</hour>
+      <minute>0</minute>
+      <second>0</second>
+      <year>2000</year>
+      <month>12</month>
+      <day>1</day>
+     </datetime>
+    </property>
+    <property name="currentSection">
+     <enum>QDateTimeEdit::YearSection</enum>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
@@ -235,6 +272,9 @@ nascimento:</string>
     <property name="text">
      <string>Feminino</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="radioButton_2">
     <property name="geometry">
@@ -248,6 +288,9 @@ nascimento:</string>
     <property name="text">
      <string>Masculino</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup</string>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
@@ -343,11 +386,15 @@ nascimento:</string>
     <property name="title">
      <string>Arquivo</string>
     </property>
+    <addaction name="actionNovo"/>
+    <addaction name="actionSalvar"/>
+    <addaction name="actionSalvar_como"/>
    </widget>
    <widget class="QMenu" name="menuEditar">
     <property name="title">
      <string>Editar</string>
     </property>
+    <addaction name="actionPrefer_ncias"/>
    </widget>
    <widget class="QMenu" name="menuVisualizar">
     <property name="title">
@@ -358,6 +405,11 @@ nascimento:</string>
     <property name="title">
      <string>Ajuda</string>
     </property>
+    <addaction name="actionManual"/>
+    <addaction name="actionReposit_rio"/>
+    <addaction name="actionReportar"/>
+    <addaction name="separator"/>
+    <addaction name="actionSobre"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEditar"/>
@@ -365,7 +417,65 @@ nascimento:</string>
    <addaction name="menuAjuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionManual">
+   <property name="text">
+    <string>Manual</string>
+   </property>
+  </action>
+  <action name="actionReposit_rio">
+   <property name="text">
+    <string>Repositório</string>
+   </property>
+  </action>
+  <action name="actionReportar">
+   <property name="text">
+    <string>Reportar</string>
+   </property>
+  </action>
+  <action name="actionSobre">
+   <property name="text">
+    <string>Sobre</string>
+   </property>
+  </action>
+  <action name="actionAlterar_repeti_es">
+   <property name="text">
+    <string>Alterar repetições</string>
+   </property>
+  </action>
+  <action name="actionAlterar_tempo">
+   <property name="text">
+    <string>Alterar tempo</string>
+   </property>
+  </action>
+  <action name="actionDesacoplar_instru_es">
+   <property name="text">
+    <string>Desacoplar instruções</string>
+   </property>
+  </action>
+  <action name="actionPrefer_ncias">
+   <property name="text">
+    <string>Preferências</string>
+   </property>
+  </action>
+  <action name="actionSalvar">
+   <property name="text">
+    <string>Salvar</string>
+   </property>
+  </action>
+  <action name="actionSalvar_como">
+   <property name="text">
+    <string>Salvar como...</string>
+   </property>
+  </action>
+  <action name="actionNovo">
+   <property name="text">
+    <string>Novo</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

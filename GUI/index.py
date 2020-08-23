@@ -4,8 +4,10 @@ import blue as ble
 import scripts as scpt
 import patient
 
-address = None
+device = None
 folder = None
+getData = False
+f = None
 
 #/////////////////////////////////////////////////////////////////////////////////////////////////
 # Bluetooth Connection Dialog
@@ -15,7 +17,7 @@ class BluetoothConnect(QtWidgets.QDialog,uic.loadUiType('bluetooth_dialog.ui')[0
         self.setupUi(self)
         self.setWindowTitle("Conexão Dispositivo")
 
-        list_of_devices = ble.search()
+        list_of_devices = scpt.BluetoothDevice(None,None).run('search',None)
         # print(list_of_devices)
         names = ['Selecione']
         for device in list_of_devices:
@@ -27,17 +29,19 @@ class BluetoothConnect(QtWidgets.QDialog,uic.loadUiType('bluetooth_dialog.ui')[0
         self.cbDevices.addItems(names)
 
         self.btnCancel = self.findChild(QtWidgets.QPushButton,'btnCancel')
-        self.btnCancel.clicked.connect(self.close)
+        self.btnCancel.clicked.connect(self.close) # Bug when execute it
 
         self.btnConnect = self.findChild(QtWidgets.QPushButton,'btnConnect')
         self.btnConnect.clicked.connect(self.connection)
 
     def connection(self):
-        self.status=ble.connect(str(self.cbDevices.currentText()))
-        if self.status == True:
+        self.device=scpt.BluetoothDevice(None,str(self.cbDevices.currentText()).split('-')[1])
+        self.connection_dev = self.device.run('connect',str(self.cbDevices.currentText()).split('-')[1])
+        if self.connection_dev != False:
             QtWidgets.QMessageBox.information(self, 'Success', 'Conectado com sucesso!')
-            global address
-            address=str(self.cbDevices.currentText().split('-')[1])
+            global device
+            device=self.connection_dev
+            self.status=True
             self.accept()
         else:
             print('wtf?')
@@ -69,7 +73,25 @@ class Main(QtWidgets.QMainWindow):
         self.btnPatientData = self.findChild(QtWidgets.QPushButton, 'btnPatientData')
         self.btnPatientData.clicked.connect(self.createDataFile)
 
+        self.btnStartStop=self.findChild(QtWidgets.QPushButton,'btnStartStop')
+        self.btnStartStop.clicked.connect(self.collection)
+
         self.show() # Show the GUI
+
+    def collection(self):
+        global getData
+        collector = scpt.CollectorCommunication(device,f)
+        if not(getData):
+            self.collectionIconChanger(not(getData))
+            print(folder)
+            print(f)
+            if collector.run('acknowledge'):
+                QtWidgets.QMessageBox.warning(self, 'Atenção', 'COLETA INICIADA!')
+                getData = True
+            collector.run('getData')
+        else:
+            collector.run('finish')
+            QtWidgets.QMessageBox.warning(self, 'Atenção', 'COLETA FINALIZADA!')
 
     def createDataFile(self):
         global folder
@@ -84,6 +106,8 @@ class Main(QtWidgets.QMainWindow):
             file = scpt.CreateFile(folder,self.p1)
             if(file.run()):
                 QtWidgets.QMessageBox.information(self, 'SUCESSO', 'Arquivo pronto para\niniciar coleta')
+                global f
+                f = file.path
             else:
                 QtWidgets.QMessageBox.critical(self, 'ERRO', 'Problema ao criar arquivo!')
 
@@ -103,7 +127,11 @@ class Main(QtWidgets.QMainWindow):
             else:
                 print("Canceled")
         else:
-            ble.disconnect()
+            stat = scpt.BluetoothDevice(device.sock,device.device).run('disconnect',device)
+            if stat:
+                QtWidgets.QMessageBox.warning(self, 'SUCESSO', 'Coletor disconectado!')
+            elif not(stat):
+                QtWidgets.QMessageBox.critical(self, 'ERRO', 'Falha ao desconectar! Basta fechar a aplicação')
             self.status=False
         self.connectedIconChanger(self.status)
     
@@ -115,7 +143,16 @@ class Main(QtWidgets.QMainWindow):
         else:
             pixmap = QtGui.QPixmap('./images/bluetooth.png')
             self.lblBlue.setPixmap(pixmap)
-            self.btnConnect.setText('Conectar')   
+            self.btnConnect.setText('Conectar')
+    def collectionIconChanger(self,status):
+        if status:
+            pixmap = QtGui.QPixmap('./images/ball_green.png')
+            self.lblState.setPixmap(pixmap)
+        else:
+            pixmap = QtGui.QPixmap('./images/ball_red.png')
+            self.lblState.setPixmap(pixmap)
+
+        self.lblState.repaint()
 #/////////////////////////////////////////////////////////////////////////////////////////////////
 
 app = QtWidgets.QApplication(sys.argv) # Create an instance of QtWidgets.QApplication

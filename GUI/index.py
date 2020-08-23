@@ -3,6 +3,7 @@ import sys
 import blue as ble
 
 address = None
+savePath = None
 
 #/////////////////////////////////////////////////////////////////////////////////////////////////
 # Bluetooth Connection Dialog
@@ -53,7 +54,15 @@ class Main(QtWidgets.QMainWindow):
 
         self.lblBlue = self.findChild(QtWidgets.QLabel, 'lblBlue')
 
+        self.btnSelectLocation = self.findChild(QtWidgets.QPushButton, 'btnSelectLocation')
+        self.btnSelectLocation.clicked.connect(self.selectSaveLocation)
+
         self.show() # Show the GUI
+
+    def selectSaveLocation(self):
+        #self.file = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        return None
+    
 
     def connection(self):
         if self.btnConnect.text()=='Conectar':

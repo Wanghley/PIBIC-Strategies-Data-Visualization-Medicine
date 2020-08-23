@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, uic, QtCore, QtGui
+from PyQt5 import QtWidgets, uic, QtCore, QtGui, QFileDialog
 import sys
 import blue as ble
 
@@ -60,8 +60,7 @@ class Main(QtWidgets.QMainWindow):
         self.show() # Show the GUI
 
     def selectSaveLocation(self):
-        #self.file = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
-        return None
+        self.folder = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
     
 
     def connection(self):

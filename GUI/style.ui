@@ -68,7 +68,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Iniciar/Parar</string>
+     <string>Iniciar</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

@@ -1,9 +1,11 @@
-from PyQt5 import QtWidgets, uic, QtCore, QtGui, QFileDialog
+from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import sys
 import blue as ble
+import scripts as scpt
+import patient
 
 address = None
-savePath = None
+folder = None
 
 #/////////////////////////////////////////////////////////////////////////////////////////////////
 # Bluetooth Connection Dialog
@@ -57,10 +59,40 @@ class Main(QtWidgets.QMainWindow):
         self.btnSelectLocation = self.findChild(QtWidgets.QPushButton, 'btnSelectLocation')
         self.btnSelectLocation.clicked.connect(self.selectSaveLocation)
 
+        self.lblFolder = self.findChild(QtWidgets.QLabel,'lblFolder')
+
+        self.txtName = self.findChild(QtWidgets.QPlainTextEdit,'txtName')
+        self.rbtnFemale = self.findChild(QtWidgets.QRadioButton,'rbtnFemale')
+        self.rbtnMale = self.findChild(QtWidgets.QRadioButton,'rbtnMale')
+        self.datePicker = self.findChild(QtWidgets.QDateEdit,'datePicker')
+
+        self.btnPatientData = self.findChild(QtWidgets.QPushButton, 'btnPatientData')
+        self.btnPatientData.clicked.connect(self.createDataFile)
+
         self.show() # Show the GUI
 
+    def createDataFile(self):
+        global folder
+        if len(folder)==0:
+            QtWidgets.QMessageBox.warning(self, 'Atenção', 'Selecione um lugar para salvar a coleta!')
+        elif ((len(self.txtName.toPlainText())==0)|
+        (not(self.rbtnFemale.isChecked()) and not(self.rbtnMale.isChecked()))):
+            QtWidgets.QMessageBox.warning(self, 'Atenção', 'Todos os dados do paciente \ndevem ser preenchidos!')
+        else:
+            self.p1 = patient.Patient(self.txtName.toPlainText(), self.datePicker.date().toPyDate(), ('F' if self.rbtnFemale.isChecked() else 'M'))
+
+            file = scpt.CreateFile(folder,self.p1)
+            if(file.run()):
+                QtWidgets.QMessageBox.information(self, 'SUCESSO', 'Arquivo pronto para\niniciar coleta')
+            else:
+                QtWidgets.QMessageBox.critical(self, 'ERRO', 'Problema ao criar arquivo!')
+
     def selectSaveLocation(self):
-        self.folder = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        global folder
+        self.folder = str(QtWidgets.QFileDialog.getExistingDirectory(self, "Select Directory"))
+        if len(self.folder)>0:
+            self.lblFolder.setText(self.folder)
+        folder = self.folder
     
 
     def connection(self):

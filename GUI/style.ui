@@ -97,7 +97,7 @@
      <string>Selecionar</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="lblFolder">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -142,7 +142,7 @@
      <string>Dados do paciente:</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="QPlainTextEdit" name="txtName">
     <property name="geometry">
      <rect>
       <x>103</x>
@@ -153,8 +153,8 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
-      <italic>true</italic>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
      </font>
     </property>
     <property name="cursor" stdset="0">
@@ -189,7 +189,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QDateEdit" name="datePicker">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -203,9 +203,9 @@
       <hour>0</hour>
       <minute>0</minute>
       <second>0</second>
-      <year>2000</year>
-      <month>12</month>
-      <day>1</day>
+      <year>1998</year>
+      <month>01</month>
+      <day>01</day>
      </datetime>
     </property>
     <property name="currentSection">
@@ -260,7 +260,7 @@ nascimento:</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="rbtnFemale">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -276,7 +276,7 @@ nascimento:</string>
      <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="rbtnMale">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -292,7 +292,7 @@ nascimento:</string>
      <string notr="true">buttonGroup</string>
     </attribute>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="btnPatientData">
     <property name="geometry">
      <rect>
       <x>120</x>

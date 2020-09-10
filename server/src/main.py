@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     # imp.reload(th)
     st = th.BluetoothAcquisitionThread(data_buffer, sock, True)
-    pt = th.DataSavingThread(data_buffer, p, file_path, True)
+    # pt = th.DataSavingThread(data_buffer, p, file_path, True)
 
     st.start()
-    pt.start()
+    # pt.start()

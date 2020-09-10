@@ -16,60 +16,61 @@ class BluetoothAcquisitionThread(Thread):
     # Base class constructor
     Thread.__init__(self, name='getDataThread')
 
-    def run(self):
-        print('Starting bluetooth data receiving thread...1s...')
-        # send s to start the communication or 's' if python 2
-        s = 's'
+  def run(self):
+      print('Starting bluetooth data receiving thread...1s...')
+      # send s to start the communication or 's' if python 2
+      s = input()
 
-        self.socket.sendall(s.encode('ASCII'))
-        data = ''
-        try:
-            while True:
-                
-                data += self.socket.recv(64).decode('ASCII')
-                
-                if '#' in data:
-                    if self.print_data:
-                        print('\nReceived data: %s' % data)
-                    data = data.split('#',1)
-                    data1 = data[0]
-                    data = data[1]
-                    if data1 == 'ok':
-                        self.socket.sendall('c')
-                    elif data1 == 'stop' or 'stop' in data:
-                        break
+      self.socket.sendall(s.encode('ASCII'))
+      data = ''
+      try:
+          while True:  
+            data += self.socket.recv(64).decode('ASCII')
+            # FIXME: 
+            # Data is appending somehow and the ok string is repeating
+            if '#' in data:
+              if self.print_data:
+                print('\nReceived data: %s' % data) 
+              data = data.split('#',1)
+              data1 = data[0]
+              data = data[1]
+              if data1 == 'ok':
+                self.socket.sendall('c')
+                data = ''
+                data1 = ''
+              elif ((data1 == 'stop') or ('stop' in data)):
+                break
+              if len(data1) > 3:
+                # if self.print_data:
+                    # print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
+                # Atomic operation: write data to buffer
+                self.data_buffer.lock()
+                self.data_buffer.write(data1)
+                self.data_buffer.unlock()
+                data1=''
 
-                if len(data1) > 3:
-                    if self.print_data:
-                        print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
-                    # Atomic operation: write data to buffer
-                    self.data_buffer.lock()
-                    self.data_buffer.write(data1)
-                    self.data_buffer.unlock()
+            sleep(1)
+          self.socket.close()
+      except Exception as inst:
+          print(type(inst))
+          print(inst.args)
+          print(inst)
+          print('Erro')
+          self.socket.close()
 
-                sleep(1)
+      finally:
+          print('Data buffer was closed')
+          # Atomic operation: close data buffer
+          self.data_buffer.lock()
+          self.data_buffer.close()
+          print(self.data_buffer.getLength())  # Final state of buffer
+          self.data_buffer.unlock()
+          self.socket.close()
 
-            self.socket.close()
-        except Exception as inst:
-            print(type(inst))
-            print(inst.args)
-            print(inst)
-            print('Erro')
-            self.socket.close()
-
-        finally:
-            print('Data buffer was closed')
-            # Atomic operation: close data buffer
-            self.data_buffer.lock()
-            self.data_buffer.close()
-            print(self.data_buffer.getLength())  # Final state of buffer
-            self.data_buffer.unlock()
-            self.socket.close()
-
-    # Dados recebidos pelo BT do arduino
-    # def btData(self):
-    #   s = str(datetime.now()) + '#0,0,0,1,1,1,25#'
-    #   return s
+  # Dados recebidos pelo BT do arduino
+  # def btData(self):
+  #   s = str(datetime.now()) + '#0,0,0,1,1,1,25#'
+  #   return s
 
 class DataSavingThread(Thread):
 
@@ -97,14 +98,14 @@ class DataSavingThread(Thread):
       if self.file_name_flag == 0:
         self.file_start_time = str(datetime.now().isoformat(sep=' ', timespec='milliseconds'))
         if self.print_data:
-            print(self.file_start_time)
+          print(self.file_start_time)
         with open(self._file_path, 'a') as csvfile:
-            writer = csv.writer(csvfile)
-            
-            writer.writerow([self.file_start_time])
-            writer.writerow(['name:'+self.patient.name, 'sex:'+self.patient.sex,
-                'birthday:'+self.patient.birthday])
-            writer.writerow(self._header)
+          writer = csv.writer(csvfile)
+          
+          writer.writerow([self.file_start_time])
+          writer.writerow(['name:'+self.patient.name, 'sex:'+self.patient.sex,
+              'birthday:'+self.patient.birthday])
+          writer.writerow(self._header)
 
         self.file_name_flag = 1
       #
@@ -137,7 +138,7 @@ class DataSavingThread(Thread):
 
   def writeCSV(self, data):
     if self.print_data:
-        print("DataSavingThread > ", data)
+      print("DataSavingThread > ", data)
     with open(self._file_path, 'a') as csvfile:
       writer = csv.writer(csvfile)
       data = data.split(',')

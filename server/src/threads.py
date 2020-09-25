@@ -21,33 +21,33 @@ class BluetoothAcquisitionThread(Thread):
       # send s to start the communication or 's' if python 2
       s = input()
 
-      self.socket.sendall(s.encode('ASCII'))
+      self.socket.sendall(s.encode('ASCII')) #FIXME verify if the buffer was cleaned by the flush
       data = ''
       try:
           while True:  
             data += self.socket.recv(64).decode('ASCII')
+            # TODO print data to verify what is being received (dev only)
             # FIXME: 
             # Data is appending somehow and the ok string is repeating
             if '#' in data:
               if self.print_data:
                 print('\nReceived data: %s' % data) 
-              data = data.split('#',1)
+              data = data.split('#',1) 
               data1 = data[0]
               data = data[1]
               if data1 == 'ok':
-                self.socket.sendall('c')
-                data = ''
-                data1 = ''
+                self.socket.sendall('c') #TODO verify flush
+                # data = ''
+                # data1 = ''
               elif ((data1 == 'stop') or ('stop' in data)):
                 break
               if len(data1) > 3:
-                # if self.print_data:
-                    # print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
+                if self.print_data:
+                    print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
                 # Atomic operation: write data to buffer
                 self.data_buffer.lock()
                 self.data_buffer.write(data1)
                 self.data_buffer.unlock()
-                data1=''
 
             sleep(1)
           self.socket.close()

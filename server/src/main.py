@@ -16,7 +16,7 @@ if __name__ == "__main__":
     p = patient.Patient(name,sex,birthday)
 
     try:
-        file_path = "{}.csv".format(p.name)
+        file_path = "{}.csv".format(p.name) #FIXME add time+date
         open(file_path, 'w+').close()
     except:
         print("ERROR CREATING CSV DATA FILE!!")
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     # bluetooth configuration
     # ===================
     #bd_addr = "98:D3:31:FB:0F:F0" # hc05 parkinson 2
-    bd_addr = "00:18:E4:40:00:06"
+    bd_addr = "00:18:E4:40:00:06" #hc05 parkinson 1
     # bd_addr =  "98:D3:31:F5:37:B0"
     port = 1
     sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)

@@ -1,8 +1,8 @@
 from time import sleep
 import threads as th
 import data_structure as ds
-import bluetooth
-import patient
+import bluetooth, patient
+from datetime import datetime
 
 if __name__ == "__main__":
     file_path=''
@@ -16,7 +16,10 @@ if __name__ == "__main__":
     p = patient.Patient(name,sex,birthday)
 
     try:
-        file_path = "{}.csv".format(p.name) #FIXME add time+date
+        time = datetime.now().strftime("%d%m%Y-%H-%M-%S")
+        print(time)
+        file_path = p.name+"_"+time+".csv"
+        print(file_path)
         open(file_path, 'w+').close()
     except:
         print("ERROR CREATING CSV DATA FILE!!")
@@ -51,7 +54,7 @@ if __name__ == "__main__":
 
     # imp.reload(th)
     st = th.BluetoothAcquisitionThread(data_buffer, sock, True)
-    # pt = th.DataSavingThread(data_buffer, p, file_path, True)
+    pt = th.DataSavingThread(data_buffer, p, file_path, True)
 
     st.start()
-    # pt.start()
+    pt.start()

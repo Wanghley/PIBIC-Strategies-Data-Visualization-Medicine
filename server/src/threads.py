@@ -19,38 +19,37 @@ class BluetoothAcquisitionThread(Thread):
   def run(self):
       print('Starting bluetooth data receiving thread...1s...')
       # send s to start the communication or 's' if python 2
-      s = input()
-
-      self.socket.sendall(s.encode('ASCII')) #FIXME verify if the buffer was cleaned by the flush
+      s = input()+'\n'
+      self.socket.sendall(s.encode('ASCII'))
       data = ''
+      hand_shaked = False
       try:
-          while True:  
-            data += self.socket.recv(64).decode('ASCII')
-            # TODO print data to verify what is being received (dev only)
-            # FIXME: 
-            # Data is appending somehow and the ok string is repeating
-            if '#' in data:
+        while True:  
+          data += self.socket.recv(64).decode('ASCII')
+          if '#' in data:
+            # if self.print_data:
+            #   print('\nReceived data: %s' % data) 
+            data = data.split('#',1) 
+            data1 = data[0]
+            data = data[1]
+            if ((data1 == 'ok') & ~hand_shaked):
+              self.socket.sendall('c')
+              hand_shaked = True
               if self.print_data:
-                print('\nReceived data: %s' % data) 
-              data = data.split('#',1) 
-              data1 = data[0]
-              data = data[1]
-              if data1 == 'ok':
-                self.socket.sendall('c') #TODO verify flush
-                # data = ''
-                # data1 = ''
-              elif ((data1 == 'stop') or ('stop' in data)):
-                break
-              if len(data1) > 3:
-                if self.print_data:
-                    print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
-                # Atomic operation: write data to buffer
-                self.data_buffer.lock()
-                self.data_buffer.write(data1)
-                self.data_buffer.unlock()
+                print("Three way handshake successed!")
+            elif ((data1 == 'stop') or ('stop' in data)):
+              break
 
-            sleep(1)
-          self.socket.close()
+            if len(data1) > 3:
+              if self.print_data:
+                  print('-'*10, 'bluetooth data receiving thread received\n> ', data1)
+              # Atomic operation: write data to buffer
+              self.data_buffer.lock()
+              self.data_buffer.write(data1)
+              self.data_buffer.unlock()
+
+          sleep(1)
+        self.socket.close()
       except Exception as inst:
           print(type(inst))
           print(inst.args)
@@ -59,7 +58,7 @@ class BluetoothAcquisitionThread(Thread):
           self.socket.close()
 
       finally:
-          print('Data buffer was closed')
+          print('Data Collector was closed')
           # Atomic operation: close data buffer
           self.data_buffer.lock()
           self.data_buffer.close()
@@ -68,12 +67,14 @@ class BluetoothAcquisitionThread(Thread):
           self.socket.close()
 
   # Dados recebidos pelo BT do arduino
-  # def btData(self):
-  #   s = str(datetime.now()) + '#0,0,0,1,1,1,25#'
-  #   return s
+  def btData(self):
+    s = str(datetime.now()) + '#0,0,0,1,1,1,25#'
+    return s
 
+
+# FIXME the operation appear to be executed only once
+    # the print does not repeat and the data collection appear to just disapear
 class DataSavingThread(Thread):
-
   def __init__(self, data_buffer, patient, file_path, print_data=False,  header=['time','accx','accy','accz','gyx','gyy','gyz','temp']):
 
     print('Creating Data Saving Thread')
@@ -91,7 +92,7 @@ class DataSavingThread(Thread):
     Thread.__init__(self, name='dataSavingThread')
 
   def run(self):
-    print('Starting DataSavingThread...')
+    print('Starting Data Saving Thread...')
     sleep(10)  # TODO: Rever
     while True:
       # File name section
@@ -106,6 +107,7 @@ class DataSavingThread(Thread):
           writer.writerow(['name:'+self.patient.name, 'sex:'+self.patient.sex,
               'birthday:'+self.patient.birthday])
           writer.writerow(self._header)
+          csvfile.close()
 
         self.file_name_flag = 1
       #
@@ -114,7 +116,7 @@ class DataSavingThread(Thread):
       if self.data_buffer.isClosed():
         # Unlock data buffer
         self.data_buffer.unlock()
-        print("Break DataSavingThread")
+        print("Saving finished and closed!")
         break
       # If not, check if there is data to be read
       if self.data_buffer.getLength() != 0:
@@ -144,3 +146,4 @@ class DataSavingThread(Thread):
       data = data.split(',')
       
       writer.writerow([data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]])
+      csvfile.close()

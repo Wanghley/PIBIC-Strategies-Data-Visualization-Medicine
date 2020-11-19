@@ -1,17 +1,17 @@
-# Visualization of large amount of data for personalized medicine
-
+# Visualization of large amount of data for personalized medicine<br>[![DOI:10.5753/encompif.2020.11062](https://zenodo.org/badge/DOI/10.5753/encompif.2020.11062.svg)](https://doi.org/10.5753/encompif.2020.11062) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Wanghley/PIBIC-Strategies-Data-Visualization-Medicine/) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Version](https://img.shields.io/badge/Version-0.0.2-blue.svg)](https://lbesson.mit-license.org/)<br>
 Project of Scientific Research in the field of biomedice engineering with the aim of build a ende-to-end system of collection,analysis and visualization of biomedical data related to neuromotors diseases as Parkinson Disease (PD) - the main studied disease in this project.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+In order to use or develop this project you must install mainly ```pybluez``` and ``pyqt5``, since they are the core used in the process of this project at all.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You need to install these things to run the project
 
-```
-Give examples
+```bash
+sudo apt-get install python3-pyqt5
+pip3 install pybluez
 ```
 
 ### Installing
@@ -32,39 +32,13 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [PyQt5](https://pypi.org/project/PyQt5/) - Cross-platform GUI toolkit Qt
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://gist.github.com/Wanghley/8d237a5e568b4e3149c0166dd010e375) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -83,6 +57,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Built to impact the diagnosis of Parkinson's Disease all around the world
+* To understand fully how the code works you must have a background of server-client communication
+* You must understand that all communication process happens through Bluetooth. Consequently, a previous study of the protocol can help
+* Feel free to use the code but do not forget to reference us

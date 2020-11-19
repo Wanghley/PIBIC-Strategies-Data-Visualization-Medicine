@@ -2,10 +2,8 @@
 AUTHOR: Wanghley Soares Martins (@wanghley)
 DATE: April 11, 2019
 CONTACT: wanghleys@gmail.com
-
 REV1: Fabio Henrique, Lissa Ximenes
 DATE: Sep 19, 2019
-
 REV2: Wanghley Martins
 DATE: Nov 19, 2020
 */
@@ -17,7 +15,7 @@ DATE: Nov 19, 2020
 #define BTN 12
 #define LED 7
 
-SoftwareSerial BTSerial(5, 6); // RX | TX
+SoftwareSerial BTSerial(10, 11); // RX | TX
 
 const int MPU = 0x68; // MPU6050 address on the I²C bus (available in datasheet)
 volatile bool visualization = false; // Variable is loaded into the "RAM memory" of the microcontroller

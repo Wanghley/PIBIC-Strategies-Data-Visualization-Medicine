@@ -18,6 +18,11 @@ class RingBuffer:
   def read(self):
     return self._data.popleft()
 
+  def readAll(self):
+    _tmpdata=self._data.copy()
+    self._data.clear()
+    return _tmpdata
+
     # Open ring buffer
   def open(self):
     self._closed = False

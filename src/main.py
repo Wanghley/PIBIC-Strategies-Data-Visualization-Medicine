@@ -57,7 +57,7 @@ if __name__ == "__main__":
     data_buffer = ds.RingBuffer(BUFFER_SIZE)
 
     # imp.reload(th)
-    st = th.BluetoothAcquisitionThread(data_buffer, sock, True)
+    st = th.BluetoothAcquisitionThread(data_buffer, sock, False)
     pt = th.DataSavingThread(data_buffer, patient, file_path, True)
 
     st.start()

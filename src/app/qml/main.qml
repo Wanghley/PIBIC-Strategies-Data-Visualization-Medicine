@@ -25,14 +25,31 @@ Window {
 
         function maximizeRestore(){
             if(windowStatus==0){
-                windowMargin=0
                 mainWindow.showMaximized()
+                btnMaximizeRestore.btnIconSource="../images/svg_images/restore_icon.svg"
+                windowMargin=0
                 windowStatus=1
             }else{
-                windowMargin=10
                 mainWindow.showNormal()
+                btnMaximizeRestore.btnIconSource="../images/svg_images/maximize_icon.svg"
+                windowMargin=10
                 windowStatus=0
             }
+        }
+
+        function ifMaximizedWindowRestore(){
+            if(windowStatus==1){
+                mainWindow.showNormal()
+                btnMaximizeRestore.btnIconSource="../images/svg_images/maximize_icon.svg"
+                windowStatus=0
+                windowMargin=10
+            }
+        }
+
+        function restoreMargins(){
+            btnMaximizeRestore.btnIconSource="../images/svg_images/maximize_icon.svg"
+            windowMargin=10
+            windowStatus=0
         }
     }
 
@@ -133,6 +150,7 @@ Window {
                     DragHandler{
                         onActiveChanged: if(active){
                                              mainWindow.startSystemMove()
+                                             internal.ifMaximizedWindowRestore()
                                          }
                     }
 
@@ -187,7 +205,10 @@ Window {
 
                     TopBarButton {
                         id: btnMinimize
-                        onClicked: mainWindow.showMinimized()
+                        onClicked: {
+                            mainWindow.showMinimized()
+                            internal.restoreMargins()
+                        }
                     }
 
                     TopBarButton {
@@ -232,7 +253,7 @@ Window {
                         target: leftMenu
                         property: "width"
                         to: if(leftMenu.width==70) return 200; else return 70
-                        duration: 750
+                        duration: 500
                         easing.type: Easing.InOutQuint
                     }
                     

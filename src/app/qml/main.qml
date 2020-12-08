@@ -2,12 +2,15 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.15
+//import QtBluetooth 5.2 // import for bluetooth control
 import "controls"
 
 Window {
     id: mainWindow
     width: 1000
+    minimumWidth: 850
     height: 580
+    minimumHeight: 500
     visible: true
     color: "#00000000"
     title: qsTr("Motion Sense")
@@ -19,9 +22,21 @@ Window {
     property int windowStatus: 0
     property int windowMargin: 10
 
+    // Text Edit Properties
+    property alias actualPage: stackView.currentItem
+
     //INTERNAl FUNCTIONS
     QtObject{
         id: internal
+
+        function resizeVisibility(opt){
+            resizeBotton.visible=opt
+            resizeBtnRight.visible=opt
+            resizeLeft.visible=opt
+            resizeRight.visible=opt
+            resizeTop.visible=opt
+            resizeImage.visible=opt
+        }
 
         function maximizeRestore(){
             if(windowStatus==0){
@@ -29,11 +44,15 @@ Window {
                 btnMaximizeRestore.btnIconSource="../images/svg_images/restore_icon.svg"
                 windowMargin=0
                 windowStatus=1
+                //Resize visibility
+                internal.resizeVisibility(false)
             }else{
                 mainWindow.showNormal()
                 btnMaximizeRestore.btnIconSource="../images/svg_images/maximize_icon.svg"
                 windowMargin=10
                 windowStatus=0
+                //Resize visibility
+                internal.resizeVisibility(true)
             }
         }
 
@@ -262,7 +281,7 @@ Window {
                         width: 70
                         anchors.fill: parent
                         anchors.bottomMargin: 69
-                        
+
                         LeftMenuBtn {
                             id: btnHome
                             width: leftMenu.width
@@ -270,6 +289,11 @@ Window {
                             iconHeight: 20
                             iconWidth: 20
                             isActiveMenu: true
+                            onClicked: {
+                                btnHome.isActiveMenu = true
+                                btnSettings.isActiveMenu = false
+                                stackView.push(Qt.resolvedUrl("pages/homePage.qml"))
+                            }
                         }
 
                         LeftMenuBtn {
@@ -329,6 +353,13 @@ Window {
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 25
                     anchors.leftMargin: 0
+
+                    StackView {
+                        id: stackView
+                        anchors.fill: parent
+                        clip: true
+                        initialItem: Qt.resolvedUrl("pages/homePage.qml")
+                    }
                 }
                 
                 Rectangle {
@@ -356,12 +387,48 @@ Window {
                         anchors.topMargin: 0
                         anchors.bottomMargin: 0
                     }
+
+                    MouseArea {
+                        id: resizeBtnRight
+                        width: 25
+                        height: 25
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.rightMargin: 0
+                        anchors.bottomMargin: 0
+
+                        cursorShape: Qt.SizeFDiagCursor
+
+                        DragHandler{
+                            target: null
+                            onActiveChanged: if (active){
+                                                 mainWindow.startSystemResize(Qt.RightEdge|Qt.BottonEdge)
+                                             }
+                        }
+                    }
+
+                    Image {
+                        id: resizeImage
+                        x: 883
+                        y: 8
+                        width: 25
+                        height: 25
+                        opacity: 0.5
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        source: "../images/svg_images/resize_icon.svg"
+                        anchors.rightMargin: -5
+                        anchors.bottomMargin: -5
+                        fillMode: Image.PreserveAspectFit
+                        antialiasing: false
+                    }
                 }
 
             }
             
         }
     }
+
 
     DropShadow{
         anchors.fill: bg
@@ -374,10 +441,77 @@ Window {
         z:0
     }
 
+    MouseArea {
+        id: resizeLeft
+        width: 10
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 0
+        anchors.bottomMargin: 10
+        anchors.topMargin: 10
+        cursorShape: Qt.SizeHorCursor
+
+        DragHandler{
+            target: null
+            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.LeftEdge)}        }
+    }
+
+
+    MouseArea {
+        id: resizeRight
+        width: 10
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 0
+        anchors.bottomMargin: 10
+        anchors.topMargin: 10
+        cursorShape: Qt.SizeHorCursor
+
+        DragHandler{
+            target: null
+            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.RightEdge)}        }
+    }
+
+    MouseArea {
+        id: resizeTop
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: bg.top
+        anchors.rightMargin: 10
+        anchors.leftMargin: 10
+        anchors.bottomMargin: 0
+        anchors.topMargin: 0
+        cursorShape: Qt.SizeVerCursor
+
+        DragHandler{
+            target: null
+            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.TopEdge)}        }
+    }
+
+    MouseArea {
+        id: resizeBotton
+        height: 10
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: bg.bottom
+        anchors.topMargin: 0
+        anchors.rightMargin: 10
+        anchors.leftMargin: 10
+        cursorShape: Qt.SizeVerCursor
+
+        DragHandler{
+            target: null
+            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.BottonEdge)}        }
+    }
+
+
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.5}
+    D{i:0;formeditorZoom:0.5}D{i:27}D{i:32}D{i:38}D{i:40}
 }
 ##^##*/

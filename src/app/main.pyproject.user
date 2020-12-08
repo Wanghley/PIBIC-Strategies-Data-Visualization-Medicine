@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.3, 2020-12-05T13:49:09. -->
+<!-- Written by QtCreator 4.13.3, 2020-12-08T12:25:10. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -167,12 +167,12 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/wanghley/Desktop/MotionSense/main.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/wanghley/Desktop/MotionSense/main.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
     <value type="bool" key="PythonEditor.RunConfiguation.Buffered">false</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{b3c7e27f-cb40-49bc-beff-4e8357b91736}</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/wanghley/Desktop/MotionSense/main.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
@@ -182,7 +182,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/wanghley/Desktop/MotionSense</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

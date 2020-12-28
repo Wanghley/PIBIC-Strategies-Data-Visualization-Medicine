@@ -68,6 +68,9 @@ Item {
                 Layout.preferredWidth: 40
                 iconVisibility: true
                 iconPath: "../../images/svg_images/search.png"
+                onClicked: {
+                    console.log(btModel)
+                }
             }
 
             Text {
@@ -84,6 +87,7 @@ Item {
 
             SpinBox {
                 id: spinBox
+                font.pixelSize: 14
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 191
                 to: 100
@@ -133,6 +137,10 @@ Item {
 
             ComboBox {
                 id: comboBox1
+                font.pixelSize: 14
+                displayText: ".csv"
+                textRole: ""
+                currentIndex: -1
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 191
             }
@@ -167,6 +175,12 @@ Item {
                 fillMode: Image.PreserveAspectFit
             }
         }
+
+//        BluetoothDiscoveryModel{
+//            id:btModel
+//            running: true
+//            discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
+//        }
     }
 }
 

@@ -94,6 +94,9 @@ Item {
                 anchors.topMargin: 0
                 font.pointSize: 12
                 font.bold: false
+                onClicked: {
+                    backend.welcomeText("Wanghley")
+                }
             }
 
             CustomButton {
@@ -161,13 +164,13 @@ Item {
                 anchors.topMargin: 15
             }
         }
+        Connections{
+            target: backend
 
-        Grid {
+            function onSetName(name){
+                text1.text=name
+            }
         }
-
-
-
-
 
     }
 

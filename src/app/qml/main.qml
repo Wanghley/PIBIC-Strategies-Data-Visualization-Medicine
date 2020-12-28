@@ -22,8 +22,6 @@ Window {
     property int windowStatus: 0
     property int windowMargin: 10
 
-    // Text Edit Properties
-    property alias actualPage: stackView.currentItem
 
     //INTERNAl FUNCTIONS
     QtObject{
@@ -295,7 +293,12 @@ Window {
                                 btnCollection.isActiveMenu=false
                                 btnAnalysis.isActiveMenu=false
                                 btnSettings.isActiveMenu=true
-                                stackView.push(Qt.resolvedUrl("pages/homePage.qml"))
+//                                stackView.push(Qt.resolvedUrl("pages/homePage.qml"))
+//                                pagesView.setSource(Qt.resolvedUrl("pages/homePage.qml"))
+                                homePageView.visible=true
+                                patientPageView.visible=false
+                                collectPageView.visible=false
+                                settingsPageView.visible=false
                             }
                         }
 
@@ -314,7 +317,12 @@ Window {
                                 btnCollection.isActiveMenu=false
                                 btnAnalysis.isActiveMenu=false
                                 btnSettings.isActiveMenu=false
-                                stackView.push(Qt.resolvedUrl("pages/patientPage.qml"))
+//                                stackView.push(Qt.resolvedUrl("pages/patientPage.qml"))
+//                                pagesView.setSource(Qt.resolvedUrl("pages/patientPage.qml"))
+                                homePageView.visible=false
+                                patientPageView.visible=true
+                                collectPageView.visible=false
+                                settingsPageView.visible=false
                             }
                         }
 
@@ -356,7 +364,12 @@ Window {
                                 btnCollection.isActiveMenu=true
                                 btnAnalysis.isActiveMenu=false
                                 btnSettings.isActiveMenu=false
-                                stackView.push(Qt.resolvedUrl("pages/collectPage.qml"))
+//                                stackView.push(Qt.resolvedUrl("pages/collectPage.qml"))
+//                                pagesView.setSource(Qt.resolvedUrl("pages/collectPage.qml"))
+                                homePageView.visible=false
+                                patientPageView.visible=false
+                                collectPageView.visible=true
+                                settingsPageView.visible=false
                             }
                         }
                     }
@@ -379,7 +392,12 @@ Window {
                         btnCollection.isActiveMenu=false
                         btnAnalysis.isActiveMenu=false
                         btnSettings.isActiveMenu=true
-                        stackView.push((Qt.resolvedUrl("pages/settingsPage.qml")))
+//                        stackView.push((Qt.resolvedUrl("pages/settingsPage.qml")))
+//                        pagesView.setSource(Qt.resolvedUrl("pages/collectPage.qml"))
+                        homePageView.visible=false
+                        patientPageView.visible=false
+                        collectPageView.visible=false
+                        settingsPageView.visible=true
                     }
                 }
 
@@ -394,12 +412,38 @@ Window {
                     anchors.bottomMargin: 25
                     anchors.leftMargin: 0
 
-                    StackView {
-                        id: stackView
+//                    StackView {
+//                        id: stackView
+//                        anchors.fill: parent
+//                        clip: true
+//                        initialItem: Qt.resolvedUrl("pages/homePage.qml")
+//                    }
+
+                    Loader{ //load other pages without animations
+                        id: homePageView
                         anchors.fill: parent
-                        clip: true
-                        initialItem: Qt.resolvedUrl("pages/homePage.qml")
+                        visible: true
+                        source: Qt.resolvedUrl("pages/homePage.qml")
                     }
+                    Loader{ //load other pages without animations
+                        id: patientPageView
+                        anchors.fill: parent
+                        visible: false
+                        source: Qt.resolvedUrl("pages/patientPage.qml")
+                    }
+                    Loader{ //load other pages without animations
+                        id: collectPageView
+                        anchors.fill: parent
+                        visible: false
+                        source: Qt.resolvedUrl("pages/collectPage.qml")
+                    }
+                    Loader{ //load other pages without animations
+                        id: settingsPageView
+                        anchors.fill: parent
+                        visible: false
+                        source: Qt.resolvedUrl("pages/settingsPage.qml")
+                    }
+
                 }
                 
                 Rectangle {

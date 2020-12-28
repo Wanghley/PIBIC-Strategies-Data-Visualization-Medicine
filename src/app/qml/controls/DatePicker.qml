@@ -58,7 +58,7 @@ Item {
     }
 
     Component.onCompleted: {
-        loadYears()();
+        loadYears();
     }
 
     function loadYears() {

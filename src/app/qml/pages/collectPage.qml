@@ -36,7 +36,7 @@ Item {
             anchors.rightMargin: parent.width/2-15
             z: 1
             anchors.topMargin: 15
-            anchors.bottomMargin: 15
+            anchors.bottomMargin: 10
             anchors.leftMargin: 25
 
             Rectangle {
@@ -105,7 +105,7 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 20
                 anchors.leftMargin: 25
-                value: 0
+                value: 0.15
                 palette.dark: "#4891d9"
                 stepSize: 2
 
@@ -120,11 +120,10 @@ Item {
                 }
 
                 onValueChanged: {
-                    console.log(typeof(valueToString(value)))
                     txtInterval.text1=valueToString(value)
                 }
                 function valueToString(value){
-                    var n = 30+value*90;
+                    var n = 15+value*105;
                     n = n.toFixed(1);
                     return n.toString();
                 }
@@ -272,7 +271,7 @@ Item {
                 wrapMode: Text.Wrap
                 anchors.leftMargin: 15
                 font.bold: false
-                anchors.topMargin: 30
+                anchors.topMargin: 10
             }
 
             RadioButton {
@@ -313,12 +312,12 @@ Item {
                 textValue: "Start"
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.top: label3.bottom
+                anchors.top: label5.bottom
                 anchors.rightMargin: parent.width/2+30
                 highlighted: false
                 scale: 1.2
                 anchors.leftMargin: 50
-                anchors.topMargin: 40
+                anchors.topMargin: 15
             }
 
             CustomButton {
@@ -328,14 +327,14 @@ Item {
                 anchors.verticalCenter: startBtn.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.top: label3.bottom
+                anchors.top: label5.bottom
+                anchors.topMargin: 15
                 colorDisabled: "#b394b8dc"
                 enabled: false
                 anchors.leftMargin: parent.width/2+30
                 anchors.rightMargin: 50
                 highlighted: false
                 scale: 1.2
-                anchors.topMargin: 40
             }
 
             Image {
@@ -345,7 +344,7 @@ Item {
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
                 source: "../../images/svg_images/circle-64-gray.png"
-                anchors.bottomMargin: 15
+                anchors.bottomMargin: 10
                 anchors.leftMargin: 25
                 fillMode: Image.PreserveAspectFit
             }
@@ -361,6 +360,66 @@ Item {
                 font.pixelSize: 12
                 anchors.rightMargin: 25
                 anchors.leftMargin: 10
+            }
+
+            Label {
+                id: label5
+                width: 80
+                height: 50
+                color: "#ffffff"
+                text: qsTr("Guidance sound:")
+                anchors.left: parent.left
+                anchors.top: label3.bottom
+                font.pixelSize: 16
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+                anchors.topMargin: 10
+                font.bold: false
+                anchors.leftMargin: 15
+            }
+
+            Row {
+                id: row
+                width: 240
+                height: 50
+                anchors.verticalCenter: label5.verticalCenter
+                anchors.left: label5.right
+                anchors.leftMargin: 20
+
+                RadioButton {
+                    id: radioButton2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    Text {
+                        color: "#ffffff"
+                        text: "Activated"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        font.pixelSize: 22
+                        anchors.leftMargin: 45
+                    }
+                    checked: false
+                    scale: 0.65
+                    anchors.leftMargin: 0
+                }
+
+                RadioButton {
+                    id: radioButton3
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: radioButton2.right
+                    Text {
+                        color: "#ffffff"
+                        text: "Deactivated"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        font.pixelSize: 22
+                        anchors.leftMargin: 45
+                    }
+                    checked: true
+                    anchors.leftMargin: 80
+                    scale: 0.65
+                }
             }
 
 
@@ -396,10 +455,10 @@ Item {
                     id: animatedImage
                     anchors.fill: parent
                     source: "../../images/official_logo.png"
-                    anchors.rightMargin: 5
-                    anchors.leftMargin: 5
-                    anchors.bottomMargin: 5
-                    anchors.topMargin: 5
+                    anchors.rightMargin: 10
+                    anchors.leftMargin: 10
+                    anchors.bottomMargin: 10
+                    anchors.topMargin: 10
                     fillMode: Image.PreserveAspectFit
                 }
             }
@@ -447,7 +506,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:800}D{i:2}D{i:4}D{i:5}D{i:7}
-D{i:10}D{i:13}D{i:15}D{i:21}D{i:24}D{i:26}D{i:27}D{i:29}D{i:3}D{i:32}D{i:31}D{i:30}
+    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:800}D{i:30}D{i:32}D{i:34}
 }
 ##^##*/

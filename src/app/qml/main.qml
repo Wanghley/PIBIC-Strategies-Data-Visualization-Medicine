@@ -291,7 +291,10 @@ Window {
                             isActiveMenu: true
                             onClicked: {
                                 btnHome.isActiveMenu = true
-                                btnSettings.isActiveMenu = false
+                                btnPatient.isActiveMenu=false
+                                btnCollection.isActiveMenu=false
+                                btnAnalysis.isActiveMenu=false
+                                btnSettings.isActiveMenu=true
                                 stackView.push(Qt.resolvedUrl("pages/homePage.qml"))
                             }
                         }
@@ -305,17 +308,37 @@ Window {
                             iconWidth: 24
                             btnIconSource: "../images/svg_images/patient.svg"
                             anchors.topMargin: 5
+                            onClicked: {
+                                btnHome.isActiveMenu=false
+                                btnPatient.isActiveMenu=true
+                                btnCollection.isActiveMenu=false
+                                btnAnalysis.isActiveMenu=false
+                                btnSettings.isActiveMenu=false
+                                stackView.push(Qt.resolvedUrl("pages/patientPage.qml"))
+                            }
                         }
 
                         LeftMenuBtn {
                             id: btnAnalysis
                             width: leftMenu.width
+                            visible: true
+                            enabled: true
                             text: qsTr("Analysis")
+                            ToolTip.visible: down
+                                ToolTip.text: qsTr("Under development!")
                             anchors.top: btnCollection.bottom
+                            isActiveMenu: false
                             iconHeight: 20
                             iconWidth: 20
                             btnIconSource: "../images/svg_images/analysis.svg"
-                            anchors.topMargin: 5
+
+                            onClicked: {
+//                                btnHome.isActiveMenu=false
+//                                btnPatient.isActiveMenu=false
+//                                btnCollection.isActiveMenu=false
+//                                btnAnalysis.isActiveMenu=true
+//                                btnSettings.isActiveMenu=false
+                            }
                         }
 
                         LeftMenuBtn {
@@ -327,6 +350,14 @@ Window {
                             iconWidth: 20
                             btnIconSource: "../images/svg_images/sensor.svg"
                             iconHeight: 20
+                            onClicked: {
+                                btnHome.isActiveMenu=false
+                                btnPatient.isActiveMenu=false
+                                btnCollection.isActiveMenu=true
+                                btnAnalysis.isActiveMenu=false
+                                btnSettings.isActiveMenu=false
+                                stackView.push(Qt.resolvedUrl("pages/collectPage.qml"))
+                            }
                         }
                     }
                 }
@@ -342,6 +373,14 @@ Window {
                     iconWidth: 20
                     btnIconSource: "../images/svg_images/settings.svg"
                     anchors.bottomMargin: 25
+                    onClicked: {
+                        btnHome.isActiveMenu=false
+                        btnPatient.isActiveMenu=false
+                        btnCollection.isActiveMenu=false
+                        btnAnalysis.isActiveMenu=false
+                        btnSettings.isActiveMenu=true
+                        stackView.push((Qt.resolvedUrl("pages/settingsPage.qml")))
+                    }
                 }
 
                 Rectangle {
@@ -351,6 +390,7 @@ Window {
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    clip: true
                     anchors.bottomMargin: 25
                     anchors.leftMargin: 0
 
@@ -512,6 +552,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.5}D{i:27}D{i:32}D{i:38}D{i:40}
+    D{i:0;formeditorZoom:0.5}
 }
 ##^##*/

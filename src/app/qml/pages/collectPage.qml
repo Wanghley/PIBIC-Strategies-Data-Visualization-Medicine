@@ -319,9 +319,6 @@ Item {
                 scale: 1.2
                 anchors.leftMargin: 50
                 anchors.topMargin: 40
-                onClicked: {
-                    textValue: "Stop"
-                }
             }
 
             CustomButton {

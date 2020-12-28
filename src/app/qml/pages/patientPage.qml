@@ -16,14 +16,7 @@ Item {
     Rectangle {
         id: rectangle
         color: "#2c313c"
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenterOffset: 14
-        anchors.bottomMargin: -8
-        anchors.leftMargin: 14
-        anchors.topMargin: 8
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.fill: parent
 
         Column {
             id: column
@@ -32,11 +25,13 @@ Item {
 
             Image {
                 id: image1
-                height: 413
-                anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 source: "../../images/svg_images/profile-fig.svg"
+                anchors.topMargin: 34
+                anchors.bottomMargin: 34
                 anchors.leftMargin: 15
                 anchors.rightMargin: 15
                 fillMode: Image.PreserveAspectFit
@@ -62,11 +57,11 @@ Item {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 font.pixelSize: 44
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
                 anchors.rightMargin: 0
-                anchors.topMargin: 40
-                anchors.leftMargin: 0
+                anchors.topMargin: 25
+                anchors.leftMargin: 10
                 font.bold: true
             }
 
@@ -77,11 +72,11 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: text1.bottom
-                anchors.bottom: text1.top
-                anchors.bottomMargin: -425
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 30
                 anchors.rightMargin: 15
-                anchors.leftMargin: 15
-                anchors.topMargin: 40
+                anchors.leftMargin: 10
+                anchors.topMargin: 25
                 radius: 10
 
                 CustomButton{
@@ -280,6 +275,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.5;height:480;width:800}
+    D{i:0;formeditorZoom:0.5;height:480;width:800}D{i:3}
 }
 ##^##*/

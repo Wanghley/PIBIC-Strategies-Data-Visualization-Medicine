@@ -292,7 +292,7 @@ Window {
                                 btnPatient.isActiveMenu=false
                                 btnCollection.isActiveMenu=false
                                 btnAnalysis.isActiveMenu=false
-                                btnSettings.isActiveMenu=true
+                                btnSettings.isActiveMenu=false
 //                                stackView.push(Qt.resolvedUrl("pages/homePage.qml"))
 //                                pagesView.setSource(Qt.resolvedUrl("pages/homePage.qml"))
                                 homePageView.visible=true
@@ -330,7 +330,7 @@ Window {
                             id: btnAnalysis
                             width: leftMenu.width
                             visible: true
-                            enabled: true
+                            enabled: false
                             text: qsTr("Analysis")
                             ToolTip.visible: down
                                 ToolTip.text: qsTr("Under development!")

@@ -10,7 +10,6 @@ import Qt.labs.platform 1.1
 
 Item {
     id: patientPage
-    property alias rectangle2: rectangle2
     anchors.centerIn: parent
 
     Rectangle {
@@ -95,35 +94,41 @@ Item {
 
                 Text {
                     id: text2
+                    width: 95
+                    height: 15
                     color: "#ffffff"
                     text: qsTr("NAME:")
                     anchors.left: parent.left
                     anchors.top: parent.top
                     font.pixelSize: 12
+                    horizontalAlignment: Text.AlignRight
                     anchors.topMargin: 31
                     anchors.leftMargin: 17
                     font.bold: true
                 }
 
                 CustomTextField{
-                    x: 118
                     y: 19
-                    width: 266
                     height: 40
+                    anchors.left: text2.right
                     anchors.right: parent.right
+                    anchors.leftMargin: 15
                     placeholderText: "e.g. Wanghley Soares Martins"
-                    anchors.rightMargin: 74
+                    anchors.rightMargin: 70
                     clip: false
 
                 }
 
                 Text {
                     id: text3
+                    width: 95
+                    height: 15
                     color: "#ffffff"
                     text: qsTr("GENDER:")
                     anchors.left: parent.left
                     anchors.top: parent.top
                     font.pixelSize: 12
+                    horizontalAlignment: Text.AlignRight
                     font.bold: true
                     anchors.topMargin: 78
                     anchors.leftMargin: 17
@@ -131,35 +136,46 @@ Item {
 
                 RadioButton {
                     id: radioButton
-                    x: 113
                     y: 65
                     text: qsTr("Female")
+                    anchors.verticalCenter: text3.verticalCenter
+                    anchors.left: text3.right
+                    checkable: true
+                    anchors.leftMargin: 10
                 }
 
                 RadioButton {
                     id: radioButton1
-                    x: 246
                     y: 65
                     text: qsTr("Male")
+                    anchors.verticalCenter: radioButton.verticalCenter
+                    anchors.left: radioButton.right
+                    checkable: true
+                    anchors.leftMargin: 40
                 }
 
                 Text {
                     id: text4
+                    width: 95
+                    height: 15
                     color: "#ffffff"
                     text: qsTr("BIRTHDAY:")
                     anchors.left: parent.left
                     anchors.top: parent.top
                     font.pixelSize: 12
+                    horizontalAlignment: Text.AlignRight
                     anchors.leftMargin: 17
                     anchors.topMargin: 136
                     font.bold: true
                 }
 
                 DatePicker{
-                    x: 118
                     y: 123
-                    width: 266
                     height: 42
+                    anchors.left: text4.right
+                    anchors.right: parent.right
+                    anchors.rightMargin: 70
+                    anchors.leftMargin: 15
 
                 }
 
@@ -178,9 +194,9 @@ Item {
                 }
 
 
+
                 Rectangle {
                     id: rectangle2
-                    x: 118
                     y: 228
                     width: 266
                     height: 25
@@ -188,6 +204,9 @@ Item {
                     radius: 8
                     border.color: "#2c313c"
                     border.width: 2
+                    anchors.verticalCenter: text6.verticalCenter
+                    anchors.left: text6.right
+                    anchors.leftMargin: 15
 
                     TextInput {
                         id: textInput
@@ -221,9 +240,9 @@ Item {
                             propagateComposedEvents: true
 
                             onClicked: {
-                              folderDialog.open()
+                                folderDialog.open()
                             }
-                          }
+                        }
                         function urlToPath(urlString) {
                             var s
                             if (urlString.startsWith("file:///")) {
@@ -237,20 +256,33 @@ Item {
                     }
                 }
 
-                RadioButton {
-                    id: radioButton2
-                    x: 118
-                    y: 175
-                    text: qsTr("Yes")
-                }
 
 
-                RadioButton {
-                    id: radioButton3
-                    x: 213
-                    y: 175
-                    text: qsTr("No")
+                RowLayout {
+                    id: rowLayout
+                    x: -10
+                    y: 150
+                    height: 40
+                    anchors.verticalCenter: text5.verticalCenter
+                    anchors.left: text5.right
+                    anchors.right: parent.right
+                    anchors.rightMargin: 70
+                    anchors.leftMargin: 10
+
+                    RadioButton {
+                        id: rBtnYes
+                        x: 148
+                        y: 179
+                        text: qsTr("Yes")
+                    }
+                    RadioButton {
+                        id: rBtnNo
+                        x: 148
+                        y: 179
+                        text: qsTr("No")
+                    }
                 }
+
 
 
                 Text {
@@ -258,7 +290,7 @@ Item {
                     width: 95
                     height: 14
                     color: "#ffffff"
-                    text: qsTr("LOCATION:")
+                    text: qsTr("SAVING FOLDER:")
                     anchors.left: parent.left
                     anchors.top: parent.top
                     font.pixelSize: 12
@@ -266,6 +298,7 @@ Item {
                     font.bold: true
                     anchors.leftMargin: 17
                 }
+
             }
         }
     }
@@ -275,6 +308,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.5;height:480;width:800}D{i:3}
+    D{i:0;formeditorZoom:0.75;height:480;width:800}D{i:14}D{i:20}
 }
 ##^##*/

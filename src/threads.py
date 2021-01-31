@@ -46,7 +46,7 @@ class BluetoothAcquisitionThread(Thread):
                     break
                       
 
-                elif '#' in data:  # FIXME erro quando stop é o último dado
+                elif '#' in data:
                     data = data.split('#', 1)
                     data1 = data[0]
                     data = data[1]

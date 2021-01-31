@@ -12,12 +12,23 @@ def createFile(path,patient,file_type):
         print("ERROR CREATING CSV DATA FILE!!")
         print(e)
 
+#TODO
 def createHeader(path,patient):
     return 0
 
-def connectBluetooth(address,port):
+
+def connectBluetooth(address,port=1):
     sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
     sock.connect((address, port))
 
     return sock
 
+def findBluetoothDevices(duration):
+    nearby_devices = bluetooth.discover_devices(duration=duration,lookup_names=True)
+
+    devices = ['Select a device']
+
+    for addr, name in nearby_devices:
+        devices.append(name+" | "+addr)
+
+    return devices

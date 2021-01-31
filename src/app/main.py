@@ -14,7 +14,8 @@ patient = None
 path = ""
 file_path = None
 file_type = ".csv"
-isConnected = False
+frequency = 50 #default frequency Hz
+sock = None
 
 # Control of Patient sign up screen
 class PatientWindow(QObject):
@@ -51,7 +52,27 @@ class SettingsWindow(QObject):
     def __init__(self):
         QObject.__init__(self)
 
-    
+    searchDeviceSig = Signal(list)
+
+    connectToDevice = Signal(bool,str)
+
+    @Slot()
+    def searchDevice(self):
+        listDevice = utils.findBluetoothDevices(5)
+        print(listDevice)
+        self.searchDeviceSig.emit(listDevice)
+
+    @Slot(str)
+    def connect(self,device):
+        success = True
+        print(device)
+        name,addr = device.split('|')
+        addr = addr.strip()
+        name = name.strip()
+        sock = utils.connectBluetooth(addr)
+        if(sock==None):
+            success=False
+        self.connectToDevice.emit(success,name)
 
     
 

@@ -2,6 +2,7 @@ import QtQuick 2.15;
 import QtQuick.Controls 2.15;
 import "../controls"
 import QtQuick.Layouts 1.0;
+import QtQuick.Dialogs 1.1
 
 Item {
     id: frame
@@ -46,13 +47,14 @@ Item {
             }
 
             ComboBox {
-                id: comboBox
+                id: cbDevices
                 y: 19
                 height: 44
                 anchors.verticalCenter: text2.verticalCenter
                 anchors.left: text2.right
                 anchors.right: parent.right
-                displayText: "Select a device"
+                currentIndex: -1
+                displayText: currentIndex===-1?"Select a device":currentText
                 font.pixelSize: 16
                 anchors.rightMargin: 25
                 anchors.leftMargin: 20
@@ -72,12 +74,12 @@ Item {
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 200
                 onClicked: {
-                    console.log(btModel)
+                    settings_backend.searchDevice()
                 }
             }
 
             CustomButton {
-                id: searchBtn1
+                id: connectBtn
                 x: 221
                 y: 82
                 width: 175
@@ -87,6 +89,9 @@ Item {
                 fontSize: 20
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 200
+                onClicked: {
+                    settings_backend.connect(cbDevices.displayText)
+                }
             }
         }
 
@@ -231,12 +236,46 @@ Item {
             }
         }
         Component.onCompleted: {
+            settings_backend.searchDevice()
+        }
 
+        MessageDialog {
+            id: msgDialog
+            title: "Overwrite?"
+            icon: StandardIcon.Information
+            text: "file.txt already exists.  Replace?"
+            standardButtons: StandardButton.Ok
+            visible: false
         }
 
         Connections{
             target: settings_backend
+            function onSearchDeviceSig(devices){
+                console.log(devices)
+                cbDevices.model=devices
+            }
 
+            function onConnectToDevice(success,name){
+                if(success){
+                    msgDialog.title="Success"
+                    msgDialog.text="Connected successfully to "+name
+                    msgDialog.visible=true
+
+                    labelRightInfo.text = "<font color=\"green\">CONNECTED ("+name+")</font>"
+
+
+
+                    btnHome.isActiveMenu = false
+                    btnPatient.isActiveMenu=false
+                    btnCollection.isActiveMenu=true
+                    btnAnalysis.isActiveMenu=false
+                    btnSettings.isActiveMenu=false
+                    homePageView.visible=false
+                    patientPageView.visible=false
+                    collectPageView.visible=true
+                    settingsPageView.visible=false
+                }
+            }
         }
     }
 }

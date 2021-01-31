@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.0, 2020-12-28T14:05:57. -->
+<!-- Written by QtCreator 4.14.0, 2021-01-31T13:55:24. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{22e364f9-aedf-42cc-9a65-e53015e8ab55}</value>
+  <value type="QByteArray">{faa77a86-125a-4d7b-bfca-53576130775f}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -71,7 +71,7 @@
    <value type="bool" key="ClangCodeModel.UseGlobalConfig">true</value>
    <value type="QString" key="ClangCodeModel.WarningConfigId">Builtin.Questionable</value>
    <valuemap type="QVariantMap" key="ClangTools">
-    <value type="bool" key="ClangTools.AnalyzeOpenFiles">false</value>
+    <value type="bool" key="ClangTools.AnalyzeOpenFiles">true</value>
     <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
     <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.DefaultTidyAndClazy</value>
     <value type="int" key="ClangTools.ParallelJobs">4</value>
@@ -167,10 +167,10 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">main</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{b3c7e27f-cb40-49bc-beff-4e8357b91736}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{e78a1aa3-4d04-4e70-b1fd-a9b622e325e4}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/wanghley/Workspace/GitHub/PIBIC-Strategies-Data-Visualization-Medicine/src/app/main.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

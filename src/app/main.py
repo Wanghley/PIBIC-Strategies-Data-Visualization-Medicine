@@ -3,6 +3,8 @@ import sys
 import os
 from patient import Patient
 import utils
+import bluetooth
+import time
 
 
 from PySide2.QtCore import QObject, Slot, Signal
@@ -16,6 +18,13 @@ file_path = None
 file_type = ".csv"
 frequency = 50 #default frequency Hz
 sock = None
+address = None
+
+def connectBluetooth(address,port=1):
+    global sock
+    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock.connect((address, port))
+    time.sleep(2)
 
 # Control of Patient sign up screen
 class PatientWindow(QObject):
@@ -69,9 +78,10 @@ class SettingsWindow(QObject):
         name,addr = device.split('|')
         addr = addr.strip()
         name = name.strip()
-        sock = utils.connectBluetooth(addr)
+        connectBluetooth(addr)
         if(sock==None):
             success=False
+        address=addr
         self.connectToDevice.emit(success,name)
 
     

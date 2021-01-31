@@ -95,7 +95,17 @@ Item {
                 font.pointSize: 12
                 font.bold: false
                 onClicked: {
-                    backend.welcomeText("Wanghley")
+                    btnHome.isActiveMenu=false
+                    btnPatient.isActiveMenu=true
+                    btnCollection.isActiveMenu=false
+                    btnAnalysis.isActiveMenu=false
+                    btnSettings.isActiveMenu=false
+//                                stackView.push(Qt.resolvedUrl("pages/patientPage.qml"))
+//                                pagesView.setSource(Qt.resolvedUrl("pages/patientPage.qml"))
+                    homePageView.visible=false
+                    patientPageView.visible=true
+                    collectPageView.visible=false
+                    settingsPageView.visible=false
                 }
             }
 
@@ -164,14 +174,6 @@ Item {
                 anchors.topMargin: 15
             }
         }
-        Connections{
-            target: backend
-
-            function onSetName(name){
-                text1.text=name
-            }
-        }
-
     }
 
 }

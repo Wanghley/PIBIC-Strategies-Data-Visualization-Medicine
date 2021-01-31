@@ -4,7 +4,8 @@ import "../controls"
 import QtQuick.Layouts 1.0;
 
 Item {
-    id: item1
+    id: frame
+
     width: 800
     Rectangle{
         id: rectangle
@@ -229,14 +230,19 @@ Item {
                 Layout.preferredWidth: 14
             }
         }
+        Component.onCompleted: {
 
+        }
 
+        Connections{
+            target: settings_backend
+
+        }
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75;height:480}D{i:3}D{i:4}D{i:2}D{i:9}D{i:10}D{i:12}D{i:13}
-D{i:14}D{i:15}D{i:8}
+    D{i:0;formeditorZoom:0.75;height:480}
 }
 ##^##*/

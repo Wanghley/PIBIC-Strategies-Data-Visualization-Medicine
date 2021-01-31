@@ -7,6 +7,7 @@ import "../controls"
 import Qt.labs.folderlistmodel 2.12
 import Qt.labs.location 1.0
 import Qt.labs.platform 1.1
+import QtQuick.Dialogs 1.1
 
 Item {
     id: patientPage
@@ -79,7 +80,7 @@ Item {
                 radius: 10
 
                 CustomButton{
-                    id: testee
+                    id: btnSavePatientData
                     x: 105
                     y: 278
                     width: 146
@@ -89,6 +90,9 @@ Item {
                     anchors.horizontalCenterOffset: 0
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottomMargin: 15
+                    onClicked: {
+                        save_patient.savePatientData(txtName.text,rBtnFemale.checked,rBtnMale.checked,dateBirthday.selectedDate,rBtnYes.checked,rBtnNo.checked,txtPath.text)
+                    }
 
                 }
 
@@ -108,6 +112,7 @@ Item {
                 }
 
                 CustomTextField{
+                    id: txtName
                     y: 19
                     height: 40
                     anchors.left: text2.right
@@ -135,23 +140,24 @@ Item {
                 }
 
                 RadioButton {
-                    id: radioButton
+                    id: rBtnFemale
                     y: 65
                     text: qsTr("Female")
                     anchors.verticalCenter: text3.verticalCenter
                     anchors.left: text3.right
+                    checked: true
                     checkable: true
                     anchors.leftMargin: 10
                 }
 
                 RadioButton {
-                    id: radioButton1
+                    id: rBtnMale
                     y: 65
                     text: qsTr("Male")
-                    anchors.verticalCenter: radioButton.verticalCenter
-                    anchors.left: radioButton.right
+                    anchors.verticalCenter: rBtnFemale.verticalCenter
+                    anchors.left: rBtnFemale.right
                     checkable: true
-                    anchors.leftMargin: 40
+                    anchors.leftMargin: 45
                 }
 
                 Text {
@@ -170,6 +176,7 @@ Item {
                 }
 
                 DatePicker{
+                    id: dateBirthday
                     y: 123
                     height: 42
                     anchors.left: text4.right
@@ -209,7 +216,7 @@ Item {
                     anchors.leftMargin: 15
 
                     TextInput {
-                        id: textInput
+                        id: txtPath
                         y: 0
                         width: 250
                         height: 25
@@ -222,14 +229,14 @@ Item {
                         selectedTextColor: "#000000"
                         antialiasing: false
                         readOnly: true
-                        property alias text1: textInput.text
+                        property alias text1: txtPath.text
 
                         FolderDialog {
                             id: folderDialog
                             currentFolder: viewer.folder
-                            folder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+                            folder: StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
                             onAccepted: {
-                                var path = textInput.urlToPath(folderDialog.currentFolder.toString());
+                                var path = txtPath.urlToPath(folderDialog.currentFolder.toString());
                                 console.log(path)
                                 folderDialog.close()
                             }
@@ -251,7 +258,7 @@ Item {
                             } else {
                                 s = urlString
                             }
-                            textInput.text1=s;
+                            txtPath.text1=s;
                         }
                     }
                 }
@@ -274,12 +281,14 @@ Item {
                         x: 148
                         y: 179
                         text: qsTr("Yes")
+                        checked: true
                     }
                     RadioButton {
                         id: rBtnNo
                         x: 148
                         y: 179
                         text: qsTr("No")
+                        checked: false
                     }
                 }
 
@@ -301,6 +310,40 @@ Item {
 
             }
         }
+
+        MessageDialog {
+            id: msgDialog
+            title: "Overwrite?"
+            icon: StandardIcon.Information
+            text: "file.txt already exists.  Replace?"
+            standardButtons: StandardButton.Ok
+            visible: false
+        }
+
+        Connections{
+            target: save_patient
+            function onPatientData(success,error){
+                if(success){
+                    msgDialog.title="Success"
+                    msgDialog.text="File created successfully. Select a bluetooth device to start the collection!"
+                    msgDialog.visible=true
+                    btnHome.isActiveMenu = false
+                    btnPatient.isActiveMenu=false
+                    btnCollection.isActiveMenu=false
+                    btnAnalysis.isActiveMenu=false
+                    btnSettings.isActiveMenu=true
+                    homePageView.visible=false
+                    patientPageView.visible=false
+                    collectPageView.visible=false
+                    settingsPageView.visible=true
+                } else{
+                    msgDialog.title="ERROR"
+                    msgDialog.text="File NOT created. "+error
+                    msgDialog.icon=StandardIcon.Critical
+                    msgDialog.visible=true
+                }
+            }
+        }
     }
 }
 
@@ -308,6 +351,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75;height:480;width:800}D{i:14}D{i:20}
+    D{i:0;formeditorZoom:0.75;height:480;width:800}
 }
 ##^##*/

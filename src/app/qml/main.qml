@@ -13,6 +13,7 @@ Window {
     minimumHeight: 500
     visible: true
     color: "#00000000"
+    property alias topBar: topBar
     title: qsTr("Motion Sense")
 
     //REMOVE TITLE BAR
@@ -165,6 +166,7 @@ Window {
                     anchors.topMargin: 0
                     
                     DragHandler{
+                        target: titleBar
                         onActiveChanged: if(active){
                                              mainWindow.startSystemMove()
                                              internal.ifMaximizedWindowRestore()
@@ -537,7 +539,6 @@ Window {
         cursorShape: Qt.SizeHorCursor
 
         DragHandler{
-            target: null
             onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.LeftEdge)}        }
     }
 
@@ -588,7 +589,9 @@ Window {
 
         DragHandler{
             target: null
-            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.BottonEdge)}        }
+            onActiveChanged: if(active) {mainWindow.startSystemResize(Qt.BottonEdge)}}
+
+
     }
 
 
@@ -596,6 +599,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.5}
+    D{i:0;formeditorZoom:0.66}
 }
 ##^##*/

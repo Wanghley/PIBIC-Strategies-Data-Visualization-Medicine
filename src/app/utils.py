@@ -1,6 +1,7 @@
 from patient import Patient
 from datetime import datetime
 import bluetooth
+import time
 
 def createFile(path,patient,file_type):
     try:
@@ -16,12 +17,6 @@ def createFile(path,patient,file_type):
 def createHeader(path,patient):
     return 0
 
-
-def connectBluetooth(address,port=1):
-    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    sock.connect((address, port))
-
-    return sock
 
 def findBluetoothDevices(duration):
     nearby_devices = bluetooth.discover_devices(duration=duration,lookup_names=True)

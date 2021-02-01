@@ -120,20 +120,21 @@ Item {
 
         Rectangle {
             id: rectangle2
-            height: 177
             opacity: 1
             color: "#2affffff"
             radius: 10
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: rectangle1.bottom
-            anchors.topMargin: 34
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 25
+            anchors.topMargin: 20
             anchors.leftMargin: 60
             anchors.rightMargin: 60
 
             Text {
                 id: text3
-                x: 78
+                x: 72
                 color: "#ffffff"
                 text: qsTr("Frequency (Hz):")
                 anchors.top: parent.top
@@ -141,14 +142,15 @@ Item {
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
-                anchors.topMargin: parent.width/30
+                anchors.topMargin: 13
                 Layout.preferredHeight: 40
                 font.bold: false
             }
 
             SpinBox {
-                id: spinBox
+                id: sBoxFreq
                 y: 19
+                height: 35
                 anchors.verticalCenter: text3.verticalCenter
                 anchors.left: text3.right
                 anchors.right: parent.right
@@ -160,6 +162,9 @@ Item {
                 to: 100
                 from: 1
                 value: 50
+                onValueChanged: {
+                    settings_backend.updateFrequency(value)
+                }
             }
 
             Item {
@@ -171,7 +176,9 @@ Item {
 
             Text {
                 id: text4
-                x: 97
+                x: 53
+                width: 148
+                height: 21
                 color: "#ffffff"
                 text: qsTr("Data Header:")
                 anchors.top: text3.bottom
@@ -179,7 +186,7 @@ Item {
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
-                anchors.topMargin: 30
+                anchors.topMargin: 25
                 Layout.preferredHeight: 40
                 font.bold: false
             }
@@ -188,7 +195,7 @@ Item {
                 id: textField
                 y: 69
                 width: 399
-                height: 40
+                height: 35
                 placeholderText: qsTr("")
                 text: "time,accx,accy,accz,gyx,gyy,gyz,temperature"
                 anchors.verticalCenter: text4.verticalCenter
@@ -209,7 +216,7 @@ Item {
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
-                anchors.topMargin: 30
+                anchors.topMargin: 25
                 Layout.preferredHeight: 40
                 font.bold: false
             }
@@ -217,13 +224,16 @@ Item {
             ComboBox {
                 id: comboBox1
                 y: 116
+                width: 143
+                height: 35
                 anchors.verticalCenter: text5.verticalCenter
                 anchors.left: text5.right
                 font.pixelSize: 14
                 anchors.leftMargin: 20
-                displayText: ".csv"
-                textRole: ""
                 currentIndex: -1
+                displayText: currentIndex===-1?".csv":currentText
+                model: [".csv", ".tsv", ".xls"]
+
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 191
             }
@@ -233,6 +243,43 @@ Item {
                 Layout.columnSpan: 2
                 Layout.preferredHeight: 14
                 Layout.preferredWidth: 14
+            }
+
+            Text {
+                id: text6
+                x: 53
+                width: 148
+                height: 21
+                color: "#ffffff"
+                text: qsTr("Buffer size:")
+                anchors.top: text5.bottom
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                font.bold: false
+                Layout.preferredHeight: 40
+                anchors.topMargin: 25
+            }
+
+            SpinBox {
+                id: sBoxBufferSize
+                y: 144
+                height: 35
+                anchors.verticalCenter: text6.verticalCenter
+                anchors.left: text6.right
+                anchors.right: parent.right
+                font.pixelSize: 14
+                Layout.preferredWidth: 191
+                Layout.preferredHeight: 40
+                anchors.leftMargin: 20
+                anchors.rightMargin: 316
+                value: 60
+                to: 256
+                from: 50
+                onValueChanged: {
+                    settings_backend.updateBufferSize(value)
+                }
             }
         }
         Component.onCompleted: {
@@ -261,7 +308,7 @@ Item {
                     msgDialog.text="Connected successfully to "+name
                     msgDialog.visible=true
 
-                    labelRightInfo.text = "<font color=\"green\">CONNECTED ("+name+")</font>"
+                    labelRightInfo.text = "<font color=\"lime\"><b>CONNECTED</br> ("+name+")</font>"
 
 
 
@@ -282,6 +329,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75;height:480}
+    D{i:0;formeditorZoom:0.75;height:480}D{i:17}D{i:18}D{i:8}
 }
 ##^##*/

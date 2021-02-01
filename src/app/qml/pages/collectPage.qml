@@ -262,7 +262,7 @@ Item {
                 width: 80
                 height: 50
                 color: "#ffffff"
-                text: qsTr("Guidance sound:")
+                text: qsTr("Guidance video:")
                 anchors.left: parent.left
                 anchors.top: label2.bottom
                 font.pixelSize: 16
@@ -286,7 +286,7 @@ Item {
                 }
                 anchors.verticalCenter: label3.verticalCenter
                 anchors.left: label3.right
-                checked: true
+                checked: false
                 scale: 0.65
                 anchors.leftMargin: 20
             }
@@ -295,6 +295,7 @@ Item {
                 id: radioButton1
                 anchors.verticalCenter: label3.verticalCenter
                 anchors.left: radioButton.right
+                checked: true
                 anchors.leftMargin: 80
                 scale: 0.65
                 Text {
@@ -497,15 +498,16 @@ Item {
 
 
         }
+        Connections{
+            target: collect_backend
 
-
-
+        }
     }
 
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:800}D{i:30}D{i:32}D{i:34}
+    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:800}
 }
 ##^##*/

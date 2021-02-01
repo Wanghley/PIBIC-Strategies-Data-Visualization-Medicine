@@ -5,6 +5,7 @@ from patient import Patient
 import utils
 import bluetooth
 import time
+import data_structure as ds
 
 
 from PySide2.QtCore import QObject, Slot, Signal
@@ -17,14 +18,14 @@ path = ""
 file_path = None
 file_type = ".csv"
 frequency = 50 #default frequency Hz
+bufferSize = 60
 sock = None
 address = None
+connected=False
+signedUp = False
+data_buffer = None
+taskInterval = 30 #interval of realization of each task
 
-def connectBluetooth(address,port=1):
-    global sock
-    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    sock.connect((address, port))
-    time.sleep(2)
 
 # Control of Patient sign up screen
 class PatientWindow(QObject):
@@ -37,6 +38,8 @@ class PatientWindow(QObject):
     #receive data from frontend
     @Slot(str,bool,bool,str,bool,bool,str)
     def savePatientData(self,name,female,male,birthday,parkinsonian_y,parkinsonian_n,path):
+        global signedUp
+        global file_path
         error=""
         success = True
         if(len(name)<2):
@@ -52,7 +55,7 @@ class PatientWindow(QObject):
             parkisonian = True if parkinsonian_y else False
             path = str(path)
             patient=Patient(name,birthday,sex,parkisonian)
-
+            signedUp = True
             file_path = str(utils.createFile(path,patient,file_type))
             
         self.patientData.emit(success,error)
@@ -65,6 +68,16 @@ class SettingsWindow(QObject):
 
     connectToDevice = Signal(bool,str)
 
+    @Slot(str)
+    def updateFrequency(self,freq):
+        global frequency
+        frequency = int(freq)
+
+    @Slot(str)
+    def updateBufferSize(self,buffer_size):
+        global bufferSize
+        bufferSize = int(buffer_size)
+
     @Slot()
     def searchDevice(self):
         listDevice = utils.findBluetoothDevices(5)
@@ -73,18 +86,39 @@ class SettingsWindow(QObject):
 
     @Slot(str)
     def connect(self,device):
+        global sock
+        global address
+        global connected
+
         success = True
-        print(device)
+        
         name,addr = device.split('|')
         addr = addr.strip()
         name = name.strip()
-        connectBluetooth(addr)
+        sock = utils.connectBluetooth(addr)
+
         if(sock==None):
             success=False
         address=addr
+        connected = True if success else False
+
+        global data_buffer, bufferSize
+        data_buffer = ds.RingBuffer(bufferSize)
+
         self.connectToDevice.emit(success,name)
 
+class CollectionWindow(QObject):
+    def __init__(self):
+        QObject.__init__(self)
     
+    @Slot(str,list,bool,bool)
+    def start(self,interval,tasks,showVideo,showAudio): #TODO function to start collection
+        return 0
+
+    @Slot(str,list,bool,bool)
+    def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection
+        return 0
+
 
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
@@ -96,6 +130,9 @@ if __name__ == "__main__":
 
     settingsWindow = SettingsWindow()
     engine.rootContext().setContextProperty('settings_backend',settingsWindow)
+
+    collectWindow = CollectionWindow()
+    engine.rootContext().setContextProperty('collect_backend',collectWindow)
 
     #Load qml file
     engine.load(os.path.join(os.path.dirname(__file__), "qml/main.qml"))

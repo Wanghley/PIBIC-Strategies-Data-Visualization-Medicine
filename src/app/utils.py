@@ -17,6 +17,12 @@ def createFile(path,patient,file_type):
 def createHeader(path,patient):
     return 0
 
+def connectBluetooth(address,port=1):
+    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock.connect((address, port))
+    time.sleep(2)
+
+    return sock
 
 def findBluetoothDevices(duration):
     nearby_devices = bluetooth.discover_devices(duration=duration,lookup_names=True)

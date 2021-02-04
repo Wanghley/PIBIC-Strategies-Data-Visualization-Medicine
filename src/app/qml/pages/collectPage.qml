@@ -275,7 +275,7 @@ Item {
             }
 
             RadioButton {
-                id: radioButton
+                id: rBtnVideo
                 Text {
                     color: "#ffffff"
                     text: "Activated"
@@ -294,7 +294,7 @@ Item {
             RadioButton {
                 id: radioButton1
                 anchors.verticalCenter: label3.verticalCenter
-                anchors.left: radioButton.right
+                anchors.left: rBtnVideo.right
                 checked: true
                 anchors.leftMargin: 80
                 scale: 0.65
@@ -319,6 +319,9 @@ Item {
                 scale: 1.2
                 anchors.leftMargin: 50
                 anchors.topMargin: 15
+                onClicked:{
+                    collect_backend.start(dial.value,selectedTasks(),rBtnVideo.checked,rBtnAudio.checked) //self,interval,tasks,showVideo,showAudio
+                }
             }
 
             CustomButton {
@@ -389,7 +392,7 @@ Item {
                 anchors.leftMargin: 20
 
                 RadioButton {
-                    id: radioButton2
+                    id: rBtnAudio
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     Text {
@@ -408,7 +411,7 @@ Item {
                 RadioButton {
                     id: radioButton3
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: radioButton2.right
+                    anchors.left: rBtnAudio.right
                     Text {
                         color: "#ffffff"
                         text: "Deactivated"
@@ -500,10 +503,27 @@ Item {
         }
         Connections{
             target: collect_backend
-
         }
-    }
 
+    }
+    property var tasks: []
+    property int i: 0
+    function selectedTasks(){
+        tasks = []
+        if(checkBox.checked){
+            tasks.push(checkBox.text)
+        }else if(checkBox1.checkState===Qt.Checked){
+                  tasks.push(checkBox1.text)
+                  console.log(checkBox1.text)
+          }else if (checkBox2.checkState===Qt.Checked){
+                  tasks.push(checkBox2.text)
+          }else if (checkBox3.checkState===Qt.Checked){
+                  tasks.push(checkBox3.text)
+          }else if (checkBox4.checkState===Qt.Checked){
+                  tasks.push(checkBox4.text)
+          }
+        return tasks
+       }
 }
 
 /*##^##

@@ -192,7 +192,7 @@ Item {
             }
 
             TextField {
-                id: textField
+                id: txtHeader
                 y: 69
                 width: 399
                 height: 35
@@ -204,6 +204,9 @@ Item {
                 Layout.columnSpan: 3
                 Layout.preferredHeight: 40
                 Layout.preferredWidth: 356
+                onTextChanged: {
+                    settings_backend.updateHeader(text)
+                }
             }
 
             Text {
@@ -329,6 +332,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75;height:480}D{i:17}D{i:18}D{i:8}
+    D{i:0;formeditorZoom:0.75;height:480}
 }
 ##^##*/

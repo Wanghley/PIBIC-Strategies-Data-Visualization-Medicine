@@ -330,9 +330,14 @@ Item {
                 anchors.leftMargin: 50
                 anchors.topMargin: 15
                 onClicked:{
+                    startBtn.enabled=false
+                    finishBtn.enabled=true
+                    animationOne.start()
+
                     collect_backend.start(dial.value,selectedTasks(),rBtnVideo.checked,rBtnAudio.checked) //self,interval,tasks,showVideo,showAudio
                     imgStatus.source= "../../images/svg_images/circle-64-green.png"
                     lblStatus.text="Reading data movements"
+
                 }
             }
 
@@ -362,7 +367,13 @@ Item {
                 source: "../../images/svg_images/circle-64-gray.png"
                 anchors.bottomMargin: 10
                 anchors.leftMargin: 25
+                visible: true
                 fillMode: Image.PreserveAspectFit
+
+                PropertyAnimation { id: animationOne; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 1; duration: 500
+                                        onStopped: animationTwo.start()}
+                PropertyAnimation { id: animationTwo; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 0.2; duration: 500;
+                onStopped: animationOne.start()}
             }
 
             Label {

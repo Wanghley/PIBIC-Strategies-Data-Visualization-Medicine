@@ -148,6 +148,7 @@ Item {
 
             CheckBox {
                 id: checkBox
+                property var txt: txtCB1.text
                 anchors.verticalCenter: label2.verticalCenter
                 anchors.left: label2.right
                 anchors.top: label.bottom
@@ -159,6 +160,7 @@ Item {
                 anchors.topMargin: 30
                 anchors.leftMargin: 15
                 Text {
+                    id:txtCB1
                     text: "Radial deviation"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -173,6 +175,7 @@ Item {
 
             CheckBox {
                 id: checkBox1
+                property var txt: txtCB2.text
                 anchors.verticalCenter: checkBox.verticalCenter
                 anchors.left: checkBox.right
                 anchors.top: label.bottom
@@ -182,6 +185,7 @@ Item {
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
+                    id:txtCB2
                     color: "#ffffff"
                     text: "Ulnar deviation"
                     anchors.verticalCenter: parent.verticalCenter
@@ -194,6 +198,7 @@ Item {
 
             CheckBox {
                 id: checkBox2
+                property var txt: txtCB3.text
                 anchors.verticalCenter: label2.verticalCenter
                 anchors.left: label2.right
                 anchors.top: label.bottom
@@ -204,6 +209,7 @@ Item {
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
+                    id:txtCB3
                     color: "#ffffff"
                     text: "Rest"
                     anchors.verticalCenter: parent.verticalCenter
@@ -218,6 +224,7 @@ Item {
             }
             CheckBox {
                 id: checkBox3
+                property var txt: txtCB4.text
                 anchors.verticalCenter: checkBox2.verticalCenter
                 anchors.left: checkBox2.right
                 anchors.top: label.bottom
@@ -227,6 +234,7 @@ Item {
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
+                    id:txtCB4
                     color: "#ffffff"
                     text: "Flexion"
                     anchors.verticalCenter: parent.verticalCenter
@@ -238,6 +246,7 @@ Item {
             }
             CheckBox {
                 id: checkBox4
+                property var txt: txtCB5.text
                 anchors.verticalCenter: checkBox3.verticalCenter
                 anchors.left: checkBox3.right
                 anchors.top: label.bottom
@@ -247,6 +256,7 @@ Item {
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
+                    id:txtCB5
                     color: "#ffffff"
                     text: "Extension"
                     anchors.verticalCenter: parent.verticalCenter
@@ -321,6 +331,8 @@ Item {
                 anchors.topMargin: 15
                 onClicked:{
                     collect_backend.start(dial.value,selectedTasks(),rBtnVideo.checked,rBtnAudio.checked) //self,interval,tasks,showVideo,showAudio
+                    imgStatus.source= "../../images/svg_images/circle-64-green.png"
+                    lblStatus.text="Reading data movements"
                 }
             }
 
@@ -342,7 +354,7 @@ Item {
             }
 
             Image {
-                id: image
+                id: imgStatus
                 width: 24
                 height: 24
                 anchors.left: parent.left
@@ -354,12 +366,12 @@ Item {
             }
 
             Label {
-                id: label4
+                id: lblStatus
                 height: 15
                 color: "#ffffff"
                 text: qsTr("Waiting to start...")
-                anchors.verticalCenter: image.verticalCenter
-                anchors.left: image.right
+                anchors.verticalCenter: imgStatus.verticalCenter
+                anchors.left: imgStatus.right
                 anchors.right: parent.right
                 font.pixelSize: 12
                 anchors.rightMargin: 25
@@ -506,21 +518,24 @@ Item {
         }
 
     }
-    property var tasks: []
     property int i: 0
     function selectedTasks(){
-        tasks = []
+        var tasks = []
+
+        if (checkBox2.checked){
+                  tasks.push(checkBox2.txt)
+          }
+        if (checkBox3.checked){
+                  tasks.push(checkBox3.txt)
+          }
+        if (checkBox4.checked){
+                  tasks.push(checkBox4.txt)
+          }
         if(checkBox.checked){
-            tasks.push(checkBox.text)
-        }else if(checkBox1.checkState===Qt.Checked){
-                  tasks.push(checkBox1.text)
-                  console.log(checkBox1.text)
-          }else if (checkBox2.checkState===Qt.Checked){
-                  tasks.push(checkBox2.text)
-          }else if (checkBox3.checkState===Qt.Checked){
-                  tasks.push(checkBox3.text)
-          }else if (checkBox4.checkState===Qt.Checked){
-                  tasks.push(checkBox4.text)
+            tasks.push(checkBox.txt)
+        }
+        if(checkBox1.checked){
+                  tasks.push(checkBox1.txt)
           }
         return tasks
        }

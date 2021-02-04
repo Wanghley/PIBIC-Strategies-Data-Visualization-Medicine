@@ -26,6 +26,8 @@ signedUp = False
 data_buffer = None
 taskInterval = 30 #interval of realization of each task
 header = "time,accx,accy,accz,gyx,gyy,gyz,temperature"
+receiveThread = None
+saveThread = None
 
 
 # Control of Patient sign up screen
@@ -121,10 +123,14 @@ class CollectionWindow(QObject):
 
     @Slot(str,list,bool,bool)
     def start(self,interval,tasks,showVideo,showAudio): #TODO function to start collection
-        global file_path, patient, header
+        global file_path, patient, header,data_buffer,sock, receiveThread, saveThread
         sTime = datetime.now()
-        print(list(tasks))
         utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
+#        receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, False)
+#        saveThread = th.DataSavingThread(data_buffer, patient, file_path, True)
+
+#        receiveThread.start()
+#        saveThread.start()
 
     @Slot(str,list,bool,bool)
     def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection

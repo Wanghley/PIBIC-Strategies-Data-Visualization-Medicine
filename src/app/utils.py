@@ -23,7 +23,7 @@ def createHeader(file_path, patient, tsk_duration, tasks, startTime, header):
                             tsk_duration, "tasks: "+str(tasks)])
             writer.writerow(['name:'+patient.name, 'sex:'+patient.sex,
                             'birthday:'+patient.birthday])
-            writer.writerow([header])
+            writer.writerow(header.replace(" ", "").split(","))
             csvfile.close()
     except Exception as e:
         print(e)

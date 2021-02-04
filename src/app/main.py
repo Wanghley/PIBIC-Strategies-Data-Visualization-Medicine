@@ -3,10 +3,10 @@ import sys
 import os
 from patient import Patient
 import utils
-import bluetooth
 import time
 import data_structure as ds
-
+import threads as th
+from datetime import datetime
 
 from PySide2.QtCore import QObject, Slot, Signal
 from PySide2.QtGui import QGuiApplication
@@ -25,6 +25,7 @@ connected=False
 signedUp = False
 data_buffer = None
 taskInterval = 30 #interval of realization of each task
+header = "time,accx,accy,accz,gyx,gyy,gyz,temperature"
 
 
 # Control of Patient sign up screen
@@ -38,8 +39,7 @@ class PatientWindow(QObject):
     #receive data from frontend
     @Slot(str,bool,bool,str,bool,bool,str)
     def savePatientData(self,name,female,male,birthday,parkinsonian_y,parkinsonian_n,path):
-        global signedUp
-        global file_path
+        global signedUp, file_path, patient
         error=""
         success = True
         if(len(name)<2):
@@ -72,6 +72,12 @@ class SettingsWindow(QObject):
     def updateFrequency(self,freq):
         global frequency
         frequency = int(freq)
+
+    @Slot(str)
+    def updateHeader(self,head):
+        global header
+        header = str(head)
+        print(header)
 
     @Slot(str)
     def updateBufferSize(self,buffer_size):
@@ -111,9 +117,14 @@ class CollectionWindow(QObject):
     def __init__(self):
         QObject.__init__(self)
     
+    startSig = Signal(bool)
+
     @Slot(str,list,bool,bool)
     def start(self,interval,tasks,showVideo,showAudio): #TODO function to start collection
-        return 0
+        global file_path, patient, header
+        sTime = datetime.now()
+        print(list(tasks))
+        utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
 
     @Slot(str,list,bool,bool)
     def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection

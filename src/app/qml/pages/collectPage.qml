@@ -356,6 +356,13 @@ Item {
                 anchors.rightMargin: 50
                 highlighted: false
                 scale: 1.2
+                onClicked: {
+                    startBtn.enabled=true
+                    finishBtn.enabled=false
+
+                    imgStatus.source= "../../images/svg_images/circle-64-red.png"
+                    lblStatus.text="Collection stop and saved"
+                }
             }
 
             Image {

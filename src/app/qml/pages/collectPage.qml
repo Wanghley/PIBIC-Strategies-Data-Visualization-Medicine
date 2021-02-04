@@ -458,7 +458,7 @@ Item {
                 AnimatedImage {
                     id: animatedImage
                     anchors.fill: parent
-                    source: "../../images/official_logo.png"
+                    source: "../../images/gifs/rest.gif"
                     anchors.rightMargin: 10
                     anchors.leftMargin: 10
                     anchors.bottomMargin: 10

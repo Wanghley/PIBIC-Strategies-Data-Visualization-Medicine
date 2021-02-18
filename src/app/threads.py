@@ -3,7 +3,6 @@ from time import sleep, time
 from datetime import datetime, timedelta
 import csv
 
-
 class BluetoothAcquisitionThread(Thread):
 
     def __init__(self, data_buffer, sock, print_data=False):
@@ -19,8 +18,8 @@ class BluetoothAcquisitionThread(Thread):
 
     def run(self):
         print('Data receiving started successfully!\nWainting for 3 way handshake...')
-
-        s = input()
+        sleep(0.75)
+        s = 's'
         self.socket.sendall(s.encode('ASCII'))
         data = ''
 

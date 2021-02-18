@@ -284,6 +284,28 @@ Item {
                     settings_backend.updateBufferSize(value)
                 }
             }
+
+            CheckBox {
+                id: cbLog
+                x: 496
+                y: 142
+                Text {
+                    y: 11
+                    text: "Show log"
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    lineHeight: 1.3
+                    fontSizeMode: Text.HorizontalFit
+                    maximumLineCount: 18
+                    minimumPixelSize: 20
+                    anchors.leftMargin: 50
+                        color: "white"
+                    }
+                onCheckStateChanged:{
+                    settings_backend.updateLogView(checked)
+                }
+
+            }
         }
         Component.onCompleted: {
             settings_backend.searchDevice()
@@ -301,7 +323,6 @@ Item {
         Connections{
             target: settings_backend
             function onSearchDeviceSig(devices){
-                console.log(devices)
                 cbDevices.model=devices
             }
 
@@ -332,6 +353,6 @@ Item {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.75;height:480}
+    D{i:0;formeditorZoom:0.75;height:480}D{i:20}
 }
 ##^##*/

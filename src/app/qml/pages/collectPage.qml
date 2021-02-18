@@ -230,7 +230,7 @@ Item {
                 anchors.top: label.bottom
                 font.pixelSize: 16
                 checked: true
-                anchors.leftMargin: 30
+                anchors.leftMargin: 20
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
@@ -251,14 +251,15 @@ Item {
                 anchors.left: checkBox3.right
                 anchors.top: label.bottom
                 font.pixelSize: 16
+                checkable: true
                 checked: true
-                anchors.leftMargin: 40
+                anchors.leftMargin: 25
                 checkState: Qt.Unchecked
                 scale: 0.6
                 Text {
                     id:txtCB5
                     color: "#ffffff"
-                    text: "Extension"
+                    text: "Against gravity"
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     font.pixelSize: 22
@@ -332,7 +333,17 @@ Item {
                 onClicked:{
                     startBtn.enabled=false
                     finishBtn.enabled=true
+
+                    dial.enabled = false
+
+                    btnHome.enabled=false
+                    btnPatient.enabled=false
+                    btnCollection.enabled=false
+                    btnAnalysis.enabled=false
+                    btnSettings.enabled=false
+
                     animationOne.start()
+
 
                     collect_backend.start(dial.value,selectedTasks(),rBtnVideo.checked,rBtnAudio.checked) //self,interval,tasks,showVideo,showAudio
                     imgStatus.source= "../../images/svg_images/circle-64-green.png"
@@ -359,6 +370,14 @@ Item {
                 onClicked: {
                     startBtn.enabled=true
                     finishBtn.enabled=false
+
+                    dial.enabled = true
+
+                    btnHome.enabled=true
+                    btnPatient.enabled=true
+                    btnCollection.enabled=true
+                    btnAnalysis.enabled=true
+                    btnSettings.enabled=true
 
                     imgStatus.source= "../../images/svg_images/circle-64-red.png"
                     lblStatus.text="Collection stop and saved"
@@ -488,7 +507,7 @@ Item {
                 AnimatedImage {
                     id: animatedImage
                     anchors.fill: parent
-                    source: "../../images/gifs/rest.gif"
+                    source: "../../images/gifs/logo.gif"
                     anchors.rightMargin: 10
                     anchors.leftMargin: 10
                     anchors.bottomMargin: 10
@@ -533,6 +552,10 @@ Item {
         }
         Connections{
             target: collect_backend
+
+            function onUpdateGif(path){
+                animatedImage.source=path
+            }
         }
 
     }

@@ -7,6 +7,7 @@ import time
 import data_structure as ds
 import threads as th
 from datetime import datetime
+from threading import Thread
 
 from PySide2.QtCore import QObject, Slot, Signal
 from PySide2.QtGui import QGuiApplication
@@ -28,7 +29,8 @@ taskInterval = 30 #interval of realization of each task
 header = "time,accx,accy,accz,gyx,gyy,gyz,temperature"
 receiveThread = None
 saveThread = None
-
+showLog = False
+tasks = ""
 
 # Control of Patient sign up screen
 class PatientWindow(QObject):
@@ -69,6 +71,11 @@ class SettingsWindow(QObject):
     searchDeviceSig = Signal(list)
 
     connectToDevice = Signal(bool,str)
+
+    @Slot(bool)
+    def updateLogView(self,log):
+        global showLog
+        showLog = bool(log)
 
     @Slot(str)
     def updateFrequency(self,freq):
@@ -120,17 +127,42 @@ class CollectionWindow(QObject):
         QObject.__init__(self)
     
     startSig = Signal(bool)
+    updateGif = Signal(str)
+
+    def changeGif(self,tasks,interval):
+        gifPaths = {
+            "rest": "../../images/gifs/rest.gif",
+            "flexion": "../../images/gifs/flexion.gif",
+            "ulnar deviation": "../../images/gifs/ulnar.gif",
+            "radial deviation": "../../images/gifs/radial.gif",
+            "against gravity": "../../images/gifs/against gravity.gif"
+        }
+
+        for i in range(len(tasks)):
+            print(gifPaths[tasks[i].lower()])
+            self.updateGif.emit(gifPaths[tasks[i].lower()])
+            time.sleep(interval)
+            self.updateGif.emit("../../images/gifs/countdown.gif")
+            time.sleep(5.5)
+        time.sleep(5)
+        self.updateGif.emit("../../images/gifs/logo.gif")
+
+
 
     @Slot(str,list,bool,bool)
-    def start(self,interval,tasks,showVideo,showAudio): #TODO function to start collection
-        global file_path, patient, header,data_buffer,sock, receiveThread, saveThread
+    def start(self,interval,taskss,showVideo,showAudio): #TODO function to start collection
+        global file_path, patient, header,data_buffer,sock,tasks,taskInterval, receiveThread, saveThread, showLog
         sTime = datetime.now()
+        tasks = taskss
         utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
-#        receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, False)
-#        saveThread = th.DataSavingThread(data_buffer, patient, file_path, True)
+        receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, showLog)
+        saveThread = th.DataSavingThread(data_buffer, patient, file_path, showLog)
+        receiveThread.start()
+        saveThread.start()
 
-#        receiveThread.start()
-#        saveThread.start()
+        thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
+        thread.start()
+
 
     @Slot(str,list,bool,bool)
     def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection

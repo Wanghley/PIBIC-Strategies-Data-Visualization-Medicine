@@ -56,7 +56,7 @@ Item {
                 id: text1
                 height: 66
                 color: "#4891d9"
-                text: qsTr("This is an environement created to collect, administrate an process inertial data from human movements.")
+                text: qsTr("This is an environement created to collect, manage an process inertial data from human movements.")
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top

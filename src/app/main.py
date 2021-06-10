@@ -138,34 +138,36 @@ class CollectionWindow(QObject):
             "against gravity": "../../images/gifs/against gravity.gif"
         }
 
+        print(interval)
         for i in range(len(tasks)):
-            print(gifPaths[tasks[i].lower()])
+            #print(gifPaths[tasks[i].lower()])
             self.updateGif.emit(gifPaths[tasks[i].lower()])
             time.sleep(interval)
             self.updateGif.emit("../../images/gifs/countdown.gif")
-            time.sleep(5.5)
-        time.sleep(5)
-        self.updateGif.emit("../../images/gifs/logo.gif")
+            time.sleep(5)
+        self.updateGif.emit("../../images/gifs/logo-white.gif")
 
 
 
     @Slot(str,list,bool,bool)
     def start(self,interval,taskss,showVideo,showAudio): #TODO function to start collection
         global file_path, patient, header,data_buffer,sock,tasks,taskInterval, receiveThread, saveThread, showLog
-        sTime = datetime.now()
-        tasks = taskss
+        sTime = datetime.now() #get date and time in the moment
+        tasks = taskss #tasks selected by the user
         utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
         receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, showLog)
         saveThread = th.DataSavingThread(data_buffer, patient, file_path, showLog)
         receiveThread.start()
         saveThread.start()
 
-        thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
-        thread.start()
+        if showVideo:
+            thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
+            thread.start()
 
 
     @Slot(str,list,bool,bool)
     def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection
+        self.updateGif.emit("../../images/gifs/logo-white.gif")
         return 0
 
 

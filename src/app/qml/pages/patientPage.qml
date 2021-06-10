@@ -326,6 +326,7 @@ Item {
                 if(success){
                     msgDialog.title="Success"
                     msgDialog.text="File created successfully. Select a bluetooth device to start the collection!"
+                    msgDialog.icon=StandardIcon.Information
                     msgDialog.visible=true
                     btnHome.isActiveMenu = false
                     btnPatient.isActiveMenu=false

@@ -102,10 +102,10 @@ class DataSavingThread(Thread):
 
         with open(self._file_path, 'a') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow([self.file_start_time])
-            writer.writerow(['name:'+self.patient.name, 'sex:'+self.patient.sex,
-                             'birthday:'+self.patient.birthday])
-            writer.writerow(self._header)
+            # writer.writerow([self.file_start_time])
+            # writer.writerow(['name:'+self.patient.name, 'sex:'+self.patient.sex,
+            #                  'birthday:'+self.patient.birthday])
+            # writer.writerow(self._header)
             csvfile.close()
         if self.print_data:
             print('header saved successfully!\nStarting time: ' +

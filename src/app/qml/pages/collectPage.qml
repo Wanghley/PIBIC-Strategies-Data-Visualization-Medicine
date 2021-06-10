@@ -355,13 +355,16 @@ Item {
             CustomButton {
                 id: finishBtn
                 height: 30
+                text: "Stop"
                 textValue: "Finish"
                 anchors.verticalCenter: startBtn.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: label5.bottom
+                colorMouseOver: "#7e0e1c"
+                colorDefault: "#cf142b"
                 anchors.topMargin: 15
-                colorDisabled: "#b394b8dc"
+                colorDisabled: "#b3dc9494"
                 enabled: false
                 anchors.leftMargin: parent.width/2+30
                 anchors.rightMargin: 50
@@ -493,7 +496,7 @@ Item {
             Rectangle {
                 id: rectangle1
                 color: "#00000000"
-                border.color: "#4891d9"
+                border.color: "#ffffff"
                 border.width: 3
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -507,7 +510,7 @@ Item {
                 AnimatedImage {
                     id: animatedImage
                     anchors.fill: parent
-                    source: "../../images/gifs/logo.gif"
+                    source: "../../images/gifs/logo-white.gif"
                     anchors.rightMargin: 10
                     anchors.leftMargin: 10
                     anchors.bottomMargin: 10
@@ -526,7 +529,7 @@ Item {
                 anchors.leftMargin: 15
                 anchors.rightMargin: 15
                 anchors.topMargin: 20
-                value: 0.5
+                value: 0.2
                 background: Rectangle {
                     implicitWidth: 100
                     implicitHeight: 6
@@ -560,6 +563,7 @@ Item {
 
     }
     property int i: 0
+    property alias progressBar: progressBar
     function selectedTasks(){
         var tasks = []
 

@@ -128,6 +128,7 @@ class CollectionWindow(QObject):
     
     startSig = Signal(bool)
     updateGif = Signal(str)
+    errorStart = Signal(str)
 
     def changeGif(self,tasks,interval):
         gifPaths = {
@@ -152,17 +153,20 @@ class CollectionWindow(QObject):
     @Slot(str,list,bool,bool)
     def start(self,interval,taskss,showVideo,showAudio): #TODO function to start collection
         global file_path, patient, header,data_buffer,sock,tasks,taskInterval, receiveThread, saveThread, showLog
-        sTime = datetime.now() #get date and time in the moment
-        tasks = taskss #tasks selected by the user
-        utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
-        receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, showLog)
-        saveThread = th.DataSavingThread(data_buffer, patient, file_path, showLog)
-        receiveThread.start()
-        saveThread.start()
+        if patient==None or path=="":
+            self.errorStart.emit("Patient form was not filled")
+        else:
+            sTime = datetime.now() #get date and time in the moment
+            tasks = taskss #tasks selected by the user
+            utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
+            receiveThread = th.BluetoothAcquisitionThread(data_buffer, sock, showLog)
+            saveThread = th.DataSavingThread(data_buffer, patient, file_path, showLog)
+            receiveThread.start()
+            saveThread.start()
 
-        if showVideo:
-            thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
-            thread.start()
+            if showVideo:
+                thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
+                thread.start()
 
 
     @Slot(bool,bool)

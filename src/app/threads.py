@@ -12,6 +12,7 @@ class BluetoothAcquisitionThread(Thread):
         self.socket = sock  # Communication
         # Control print data
         self.print_data = print_data
+        self._stop = False
 
         # Base class constructor
         Thread.__init__(self, name='getDataThread')
@@ -61,6 +62,8 @@ class BluetoothAcquisitionThread(Thread):
                         self.data_buffer.lock()
                         self.data_buffer.write(data1)
                         self.data_buffer.unlock()
+                if self._stop:
+                    break
 
         except Exception as exc:
             print(type(exc))
@@ -77,6 +80,8 @@ class BluetoothAcquisitionThread(Thread):
             self.data_buffer.unlock()
             self.socket.close()
 
+    def close(self):
+        self._stop=True
 
 class DataSavingThread(Thread):
     def __init__(self, data_buffer, patient, file_path, print_data=False,  header=['time', 'accx', 'accy', 'accz', 'gyx', 'gyy', 'gyz', 'temp']):

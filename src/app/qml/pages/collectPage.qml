@@ -342,7 +342,7 @@ Item {
                     btnAnalysis.enabled=false
                     btnSettings.enabled=false
 
-                    animationOne.start()
+                    //animationOne.start()
 
 
                     collect_backend.start(dial.value,selectedTasks(),rBtnVideo.checked,rBtnAudio.checked) //self,interval,tasks,showVideo,showAudio
@@ -382,8 +382,11 @@ Item {
                     btnAnalysis.enabled=true
                     btnSettings.enabled=true
 
+                    imgStatus.source= ""
                     imgStatus.source= "../../images/svg_images/circle-64-red.png"
                     lblStatus.text="Collection stop and saved"
+
+                    collect_backend.stop(rBtnVideo.checked,rBtnAudio.checked)
                 }
             }
 
@@ -399,10 +402,8 @@ Item {
                 visible: true
                 fillMode: Image.PreserveAspectFit
 
-                PropertyAnimation { id: animationOne; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 1; duration: 500
-                                        onStopped: animationTwo.start()}
-                PropertyAnimation { id: animationTwo; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 0.2; duration: 500;
-                onStopped: animationOne.start()}
+                //PropertyAnimation { id: animationOne; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 1; duration: 500; onStopped: animationTwo.start()}
+                //PropertyAnimation { id: animationTwo; target: imgStatus;alwaysRunToEnd: true; property: "opacity"; to: 0.2; duration: 500; onStopped: animationOne.start()}
             }
 
             Label {

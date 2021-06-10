@@ -165,10 +165,12 @@ class CollectionWindow(QObject):
             thread.start()
 
 
-    @Slot(str,list,bool,bool)
-    def stop(self,interval,tasks,showVideo,showAudio): #TODO function to stop collection
+    @Slot(bool,bool)
+    def stop(self,showVideo,showAudio): #TODO function to stop collection
+        global receiveThread, saveThread
+        print('im here!!')
+        receiveThread.close()
         self.updateGif.emit("../../images/gifs/logo-white.gif")
-        return 0
 
 
 if __name__ == "__main__":

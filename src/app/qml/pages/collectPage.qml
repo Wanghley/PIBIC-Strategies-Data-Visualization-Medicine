@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Styles 1.0
 import "../controls"
+import QtQuick.Dialogs 1.1
 
 Item {
     clip: true
@@ -551,14 +552,42 @@ Item {
                     }
                 }
             }
-
-
+            MessageDialog {
+                id: msgDialog
+                title: "Overwrite?"
+                icon: StandardIcon.Critical
+                text: "file.txt already exists.  Replace?"
+                standardButtons: StandardButton.Ok
+                visible: false
+            }
         }
         Connections{
             target: collect_backend
 
             function onUpdateGif(path){
                 animatedImage.source=path
+            }
+
+            function onErrorStart(error){
+                startBtn.enabled=true
+                finishBtn.enabled=false
+
+                dial.enabled = true
+
+                btnHome.enabled=true
+                btnPatient.enabled=true
+                btnCollection.enabled=true
+                btnAnalysis.enabled=true
+                btnSettings.enabled=true
+
+                imgStatus.source= ""
+                imgStatus.source= "../../images/svg_images/circle-64-red.png"
+                lblStatus.text="Collection starting failed"
+                msgDialog.title="ERROR"
+                msgDialog.text=error
+                msgDialog.visible=true
+
+
             }
         }
 

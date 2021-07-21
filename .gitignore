@@ -4,3 +4,4 @@ __pycache__/
 .gitignore
 test.py
 /server/data
+.pyproject.user

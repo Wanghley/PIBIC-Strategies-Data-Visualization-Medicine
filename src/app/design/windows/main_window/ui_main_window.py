@@ -10,29 +10,15 @@
 #
 # ///////////////////////////////////////////////////////////////
 
-# import modules
-import sys
-import os
-
 #import QT CORE
 from qt_core import *
 
-#import main window
-from design.windows.main_window.ui_main_window import *
-
 # main window
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        # setup main window
-        self.ui = UI_MainWindow()
-        self.ui.setup_ui(self)
-
-        # show the application
-        self.show()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    sys.exit(app.exec())
+class UI_MainWindow(object):
+    def setup_ui(self,parent):
+        if not parent.objectName():
+            parent.setObjectName("MainWindow")
+        
+        # set initial parameters
+        parent.resize(960,540) # initial size
+        parent.setMinimumSize(650,400) #minimun size

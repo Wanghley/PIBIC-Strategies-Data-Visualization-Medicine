@@ -1,3 +1,0 @@
-{
-    "files": ["qml/controls/DatePicker.qml","main.qml","qml/pages/patientPage.qml","main.py","qml/controls/ToggleButton.qml","qml/controls/TopBarButton.qml","qml/controls/CustomButton.qml","qml/controls/LeftMenuBtn.qml","qml/pages/homePage.qml","qml/pages/collectPage.qml","qml/controls/CustomTextField.qml","qml/pages/settingsPage.qml"]
-}

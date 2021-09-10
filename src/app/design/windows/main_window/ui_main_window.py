@@ -22,3 +22,29 @@ class UI_MainWindow(object):
         # set initial parameters
         parent.resize(960,540) # initial size
         parent.setMinimumSize(650,400) #minimun size
+
+        #create central widget
+        self.central_frame = QFrame()
+        self.central_frame.setStyleSheet("background-color: #282a36")
+
+        #Create main layout
+        self.main_layout = QHBoxLayout(self.central_frame) # fill all the area of the frame in an horizontal layout (X | X)
+        self.main_layout.setContentsMargins(0,0,0,0) # remove borders around left menu and content layout
+        self.main_layout.setSpacing(0) # remove borders between left menu and content layout
+
+        # Lef menu
+        self.left_menu = QFrame()
+        self.left_menu.setStyleSheet("background-color: #44475a")
+        self.left_menu.setMaximumWidth(50) #change maximum width of left menu to 50px
+
+        # content
+        self.content = QFrame()
+        self.content.setStyleSheet("background-color: #282a36")
+
+
+        # add widgets to app
+        self.main_layout.addWidget(self.left_menu)
+        self.main_layout.addWidget(self.content)
+
+        # Set central widget
+        parent.setCentralWidget(self.central_frame)

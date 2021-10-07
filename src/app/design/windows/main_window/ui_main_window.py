@@ -67,7 +67,7 @@ class UI_MainWindow(object):
         self.top_space = QSpacerItem(20,20,QSizePolicy.Expanding, QSizePolicy.Minimum)
         #right top label
         self.top_label_right = QLabel("Main page | NOT CONNECTED")
-        self.top_label_right.setStyleSheet("font: 700 9pts 'Segoe UI'")
+        self.top_label_right.setStyleSheet("font: 600 9pts 'Segoe UI'; font-size:14px")
         ## add to top bar
         self.top_bar.layout.addWidget(self.top_label_left)
         self.top_bar.layout.addItem(self.top_space)
@@ -80,11 +80,27 @@ class UI_MainWindow(object):
         self.pages = QStackedWidget() # used to create page inside of the application
         self.pages.setStyleSheet("background-color:; font-size: 12pt; color: #f8f8f2")
 
-        # botton bar
+        ######################
+        # BOTTON BAR
         self.botton_bar = QFrame()
         self.botton_bar.setMinimumHeight(30) # Always set minimum anx maximum height to stay responsible
         self.botton_bar.setMaximumHeight(30)
         self.botton_bar.setStyleSheet("background-color:#21232d; color:#6272a4")
+        self.botton_bar_layout = QHBoxLayout(self.botton_bar)
+        self.botton_bar_layout.setContentsMargins(10,0,10,0)
+        # left label
+        self.botton_label_left = QLabel("Created by <b>Wanghley Soares Martins</b> & adviced by PhD <b>Fábio Henrique Monteiro Oliveira</b>")
+        self.botton_label_left.setStyleSheet("font: 200;font-size:12px;text-decoration: none")
+        #top spacer
+        self.botton_space = QSpacerItem(20,20,QSizePolicy.Expanding, QSizePolicy.Minimum)
+        #right top label
+        self.botton_label_right = QLabel("Copyright© 2021")
+        self.botton_label_right.setStyleSheet("font: 400;font-size:12px;text-decoration: none")
+        ## add to top bar
+        self.botton_bar_layout.addWidget(self.botton_label_left)
+        self.botton_bar_layout.addItem(self.botton_space)
+        self.botton_bar_layout.addWidget(self.botton_label_right)
+        ######################
 
         # add widgets to layout
         self.content_layout.addWidget(self.top_bar)

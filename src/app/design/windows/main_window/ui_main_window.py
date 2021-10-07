@@ -53,11 +53,28 @@ class UI_MainWindow(object):
         self.content_layout.setContentsMargins(0,0,0,0) 
         self.content_layout.setSpacing(0)
 
-        # top bar
+        ######################
+        # TOP BAR 
         self.top_bar = QFrame()
         self.top_bar.setMinimumHeight(30) # Always set minimum anx maximum height to stay responsible
         self.top_bar.setMaximumHeight(30)
         self.top_bar.setStyleSheet("background-color:#21232d; color:#6272a4")
+        self.top_bar.layout = QHBoxLayout(self.top_bar)
+        self.top_bar.layout.setContentsMargins(10,0,10,0)
+        # left label
+        self.top_label_left = QLabel("MotionSense — Movements data center")
+        #top spacer
+        self.top_space = QSpacerItem(20,20,QSizePolicy.Expanding, QSizePolicy.Minimum)
+        #right top label
+        self.top_label_right = QLabel("Main page | NOT CONNECTED")
+        self.top_label_right.setStyleSheet("font: 700 9pts 'Segoe UI'")
+        ## add to top bar
+        self.top_bar.layout.addWidget(self.top_label_left)
+        self.top_bar.layout.addItem(self.top_space)
+        self.top_bar.layout.addWidget(self.top_label_right)
+
+        ######################
+
 
         # Application pages
         self.pages = QStackedWidget() # used to create page inside of the application

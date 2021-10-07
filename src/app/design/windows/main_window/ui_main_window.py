@@ -106,7 +106,7 @@ class UI_MainWindow(object):
         self.content_layout.addWidget(self.top_bar)
         self.content_layout.addWidget(self.pages)
         self.content_layout.addWidget(self.botton_bar)
-        #-------------------------------------------------------------------------------------------------
+        #-----------------------------------------------------------------------------------------------
         # add widgets to app
         self.main_layout.addWidget(self.left_menu)
         self.main_layout.addWidget(self.content)

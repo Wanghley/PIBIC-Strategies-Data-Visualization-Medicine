@@ -13,6 +13,9 @@
 #import QT CORE
 from qt_core import *
 
+# import pages
+from pages.ui_pages import *
+
 # main window
 class UI_MainWindow(object):
     def setup_ui(self,parent):
@@ -35,11 +38,43 @@ class UI_MainWindow(object):
         self.main_layout.setContentsMargins(0,0,0,0) # remove borders around left menu and content layout
         self.main_layout.setSpacing(0) # remove borders between left menu and content layout
 
-        # Left menu
+        #-------------------------------------------------------------------------------------------------
+        # LEFT MENU
         self.left_menu = QFrame()
         self.left_menu.setStyleSheet("background-color: #44475a")
         self.left_menu.setMaximumWidth(50) #change maximum width of left menu to 50px
         self.left_menu.setMinimumWidth(50)
+
+        # left menu layout
+        self.left_menu_layout = QVBoxLayout(self.left_menu)
+        self.left_menu_layout.setContentsMargins(0,0,0,0)
+        self.left_menu_layout.setSpacing(0)
+
+        # top frame menu
+        self.left_menu_top_frame = QFrame()
+        self.left_menu_top_frame.setMinimumHeight(50)
+        self.left_menu_top_frame.setStyleSheet("background-color: red")
+
+        # menu spacer
+        self.left_menu_spacer = QSpacerItem(20,20,QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        # top frame menu
+        self.left_menu_botton_frame = QFrame()
+        self.left_menu_botton_frame.setMinimumHeight(50)
+        self.left_menu_botton_frame.setStyleSheet("background-color: red")
+
+        # label version
+        self.left_menu_label_version = QLabel("v0.1.0")
+        self.left_menu_label_version.setAlignment(Qt.AlignCenter)
+        self.left_menu_label_version.setMinimumHeight(30)
+        self.left_menu_label_version.setMaximumHeight(30)
+        self.left_menu_label_version.setStyleSheet("font: 400 9pts 'Segoe UI'; font-size:12px; color: #a2b3e8")
+
+        self.left_menu_layout.addWidget(self.left_menu_top_frame)
+        self.left_menu_layout.addItem(self.left_menu_spacer)
+        self.left_menu_layout.addWidget(self.left_menu_botton_frame)
+        self.left_menu_layout.addWidget(self.left_menu_label_version)
+
 
         #-------------------------------------------------------------------------------------------------
         # CONTENT WIDGET & CHILDREN
@@ -78,7 +113,10 @@ class UI_MainWindow(object):
 
         # Application pages
         self.pages = QStackedWidget() # used to create page inside of the application
-        self.pages.setStyleSheet("background-color:; font-size: 12pt; color: #f8f8f2")
+        self.pages.setStyleSheet("font-size: 12pt; color: #f8f8f2")
+        self.ui_pages = Ui_application_pages()
+        self.ui_pages.setupUi(self.pages)
+        self.pages.setCurrentWidget(self.ui_pages.main)
 
         ######################
         # BOTTON BAR

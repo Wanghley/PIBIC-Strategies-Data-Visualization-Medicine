@@ -1,6 +1,7 @@
 # ///////////////////////////////////////////////////////////////
 #
 # BY: WANGHLEY SOARES MARTINS
+# ADVISOR: Ph.D. FÁBIO HENRIQUE MONTEIRO OLIVEIRA
 # BASED ON: WANDERSON M. PIMENTA WORK
 # PROJECT MADE WITH: Qt Designer and PySide6
 #
@@ -68,7 +69,7 @@ class UI_MainWindow(object):
         self.left_menu_label_version.setAlignment(Qt.AlignCenter)
         self.left_menu_label_version.setMinimumHeight(30)
         self.left_menu_label_version.setMaximumHeight(30)
-        self.left_menu_label_version.setStyleSheet("font: 400 9pts 'Segoe UI'; font-size:12px; color: #a2b3e8")
+        self.left_menu_label_version.setStyleSheet("font: 500 9pts 'Segoe UI'; font-size:12px; color: #c3ccdf")
 
         self.left_menu_layout.addWidget(self.left_menu_top_frame)
         self.left_menu_layout.addItem(self.left_menu_spacer)

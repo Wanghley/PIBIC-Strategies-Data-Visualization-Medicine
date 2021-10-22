@@ -17,6 +17,9 @@ from qt_core import *
 # import pages
 from pages.ui_pages import *
 
+#import CUSTOM WIDGETS
+from widgets.py_push_button import PyPushButton
+
 # main window
 class UI_MainWindow(object):
     def setup_ui(self,parent):
@@ -63,18 +66,21 @@ class UI_MainWindow(object):
         self.left_menu_top_layout.setSpacing(0)
 
         # top btns
-        self.toggle_button = QPushButton("Toggle")
-        self.btn_1 = QPushButton("1")
-        self.btn_2 = QPushButton("2")
-        self.btn_3 = QPushButton("3")
-        self.btn_4 = QPushButton("4")
+        self.toggle_button = PyPushButton("",icon_path="menu.svg")
+        self.btn_home = PyPushButton("Home",is_active=True,icon_path="home.svg")
+        self.btn_patient = PyPushButton("Patient",icon_path="user.svg")
+        self.btn_collection = PyPushButton("Collection",icon_path="search.svg")
+        self.btn_visualization = PyPushButton("Visualization",icon_path="monitor.svg")
+        self.btn_upload = PyPushButton("Upload",icon_path="upload.svg")
+        self.btn_upload.setEnabled(False)
 
         # add btns to layout
         self.left_menu_top_layout.addWidget(self.toggle_button)
-        self.left_menu_top_layout.addWidget(self.btn_1)
-        self.left_menu_top_layout.addWidget(self.btn_2)
-        self.left_menu_top_layout.addWidget(self.btn_3)
-        self.left_menu_top_layout.addWidget(self.btn_4)
+        self.left_menu_top_layout.addWidget(self.btn_home)
+        self.left_menu_top_layout.addWidget(self.btn_patient)
+        self.left_menu_top_layout.addWidget(self.btn_collection)
+        self.left_menu_top_layout.addWidget(self.btn_visualization)
+        self.left_menu_top_layout.addWidget(self.btn_upload)
 
         # menu spacer
         self.left_menu_spacer = QSpacerItem(20,20,QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -83,7 +89,7 @@ class UI_MainWindow(object):
         self.left_menu_botton_frame = QFrame()
         self.left_menu_botton_frame.setMinimumHeight(50)
         self.left_menu_botton_frame.setObjectName("left_menu_botton_frame")
-        self.left_menu_botton_frame.setStyleSheet("#left_menu_botton_frame { background-color: red; }")
+        self.left_menu_botton_frame.setStyleSheet("#left_menu_botton_frame { background-color: none; }")
 
         # top frame layout
         self.left_menu_botton_layout = QVBoxLayout(self.left_menu_botton_frame)
@@ -91,7 +97,7 @@ class UI_MainWindow(object):
         self.left_menu_botton_layout.setSpacing(0)
 
          # top btns
-        self.set_btn = QPushButton("Settings")
+        self.set_btn = PyPushButton("Settings",icon_path="settings.svg")
 
         # add btn botton
         self.left_menu_botton_layout.addWidget(self.set_btn)

@@ -176,7 +176,7 @@ Item {
 
             CheckBox {
                 id: checkBox1
-                property var txt: txtCB2.text
+                property string txt: txtCB2.text
                 anchors.verticalCenter: checkBox.verticalCenter
                 anchors.left: checkBox.right
                 anchors.top: label.bottom
@@ -199,7 +199,7 @@ Item {
 
             CheckBox {
                 id: checkBox2
-                property var txt: txtCB3.text
+                property string txt: txtCB3.text
                 anchors.verticalCenter: label2.verticalCenter
                 anchors.left: label2.right
                 anchors.top: label.bottom
@@ -225,7 +225,7 @@ Item {
             }
             CheckBox {
                 id: checkBox3
-                property var txt: txtCB4.text
+                property string txt: txtCB4.text
                 anchors.verticalCenter: checkBox2.verticalCenter
                 anchors.left: checkBox2.right
                 anchors.top: label.bottom
@@ -247,7 +247,7 @@ Item {
             }
             CheckBox {
                 id: checkBox4
-                property var txt: txtCB5.text
+                property string txt: txtCB5.text
                 anchors.verticalCenter: checkBox3.verticalCenter
                 anchors.left: checkBox3.right
                 anchors.top: label.bottom
@@ -336,6 +336,7 @@ Item {
                     finishBtn.enabled=true
 
                     dial.enabled = false
+                    console.log(dial.value)
 
                     btnHome.enabled=false
                     btnPatient.enabled=false

@@ -219,7 +219,7 @@ Item {
                         id: txtPath
                         y: 0
                         width: 250
-                        height: 25
+                        height: 35
                         color: "#ffffff"
                         text: qsTr("Select folder to save data...")
                         anchors.left: parent.left

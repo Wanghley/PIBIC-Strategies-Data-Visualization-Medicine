@@ -40,11 +40,12 @@ def connectBluetooth(address, port=1):
 
 def findBluetoothDevices(duration):
     nearby_devices = bluetooth.discover_devices(
-        duration=duration, lookup_names=True)
+        duration, lookup_names=True)
 
     devices = ['Select a device']
 
     for addr, name in nearby_devices:
         devices.append(name+" | "+addr)
+        print(name+" | "+addr)
 
     return devices

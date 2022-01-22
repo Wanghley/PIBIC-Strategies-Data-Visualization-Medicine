@@ -8,6 +8,7 @@ import data_structure as ds
 import threads as th
 from datetime import datetime
 from threading import Thread
+from numpy import arange
 
 from PySide2.QtCore import QObject, Slot, Signal, QThread
 from PySide2.QtGui import QGuiApplication
@@ -140,10 +141,6 @@ class CollectionWindow(QObject):
             "against gravity": "../../images/gifs/against gravity.gif"
         }
 
-        print(interval)
-        self.worker = ProgressBarControl(len(tasks),interval)
-        self.worker.progress_changed.connect(self.progressBarControl)
-        self.worker.start()
         for i in range(len(tasks)):
             #print(gifPaths[tasks[i].lower()])
             self.updateGif.emit(gifPaths[tasks[i].lower()])
@@ -158,6 +155,11 @@ class CollectionWindow(QObject):
         if patient==None or file_path==None:
             self.errorStart.emit("Patient form was not filled")
         else:
+            print(interval)
+            taskInterval = float(interval)
+            taskInterval= 15 + (((taskInterval-0)*(120-15))/(1-0))
+            taskInterval = round(taskInterval,1)
+            print(taskInterval)
             sTime = datetime.now() #get date and time in the moment
             tasks = taskss #tasks selected by the user
             utils.createHeader(file_path,patient,interval,tasks,sTime,header) #file_path, patient, tsk_duration, tasks, startTime, header
@@ -166,10 +168,15 @@ class CollectionWindow(QObject):
             receiveThread.start()
             saveThread.start()
 
+            print(taskInterval)
+
             if showVideo:
                 thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
                 thread.start()
 
+            self.worker = ProgressBarControl(len(tasks),taskInterval)
+            self.worker.progress_changed.connect(self.progressBarControl)
+            self.worker.start()
             # totalTime = len(tasks)*taskInterval
             # print(totalTime)
             # progressBarThread = Thread(target=self.progressBarControl,args=[totalTime])
@@ -192,9 +199,9 @@ class ProgressBarControl(QThread):
     @Slot()
     def run(self):
         for task in range(self.tasks):
-            for i in range(0,self.interval+1):
+            for i in arange(0,self.interval+1,0.5):
                 self.progress_changed.emit((i/self.interval))
-                time.sleep(1)
+                time.sleep(0.5)
             time.sleep(1)
             self.progress_changed.emit(0)
             time.sleep(1)

@@ -188,6 +188,8 @@ class CollectionWindow(QObject):
         print('im here!!')
         receiveThread.close()
         self.updateGif.emit("../../images/gifs/logo-white.gif")
+        self.worker.terminate()
+        self.progressBarControl.emit(0)
 
 class ProgressBarControl(QThread):
     progress_changed = Signal(float)

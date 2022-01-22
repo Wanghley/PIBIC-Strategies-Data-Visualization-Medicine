@@ -9,7 +9,7 @@ import threads as th
 from datetime import datetime
 from threading import Thread
 
-from PySide2.QtCore import QObject, Slot, Signal
+from PySide2.QtCore import QObject, Slot, Signal, QThread
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
 
@@ -95,7 +95,7 @@ class SettingsWindow(QObject):
 
     @Slot()
     def searchDevice(self):
-        listDevice = utils.findBluetoothDevices(5)
+        listDevice = utils.findBluetoothDevices(10)
         print(listDevice)
         self.searchDeviceSig.emit(listDevice)
 
@@ -129,6 +129,7 @@ class CollectionWindow(QObject):
     startSig = Signal(bool)
     updateGif = Signal(str)
     errorStart = Signal(str)
+    progressBarControl = Signal(float, name="progressChanged")
 
     def changeGif(self,tasks,interval):
         gifPaths = {
@@ -140,6 +141,9 @@ class CollectionWindow(QObject):
         }
 
         print(interval)
+        self.worker = ProgressBarControl(len(tasks),interval)
+        self.worker.progress_changed.connect(self.progressBarControl)
+        self.worker.start()
         for i in range(len(tasks)):
             #print(gifPaths[tasks[i].lower()])
             self.updateGif.emit(gifPaths[tasks[i].lower()])
@@ -148,12 +152,10 @@ class CollectionWindow(QObject):
             time.sleep(5)
         self.updateGif.emit("../../images/gifs/logo-white.gif")
 
-
-
     @Slot(str,list,bool,bool)
     def start(self,interval,taskss,showVideo,showAudio): #TODO function to start collection
         global file_path, patient, header,data_buffer,sock,tasks,taskInterval, receiveThread, saveThread, showLog
-        if patient==None or path=="":
+        if patient==None or file_path==None:
             self.errorStart.emit("Patient form was not filled")
         else:
             sTime = datetime.now() #get date and time in the moment
@@ -168,6 +170,10 @@ class CollectionWindow(QObject):
                 thread = Thread(target=self.changeGif,args=[tasks,taskInterval])
                 thread.start()
 
+            # totalTime = len(tasks)*taskInterval
+            # print(totalTime)
+            # progressBarThread = Thread(target=self.progressBarControl,args=[totalTime])
+
 
     @Slot(bool,bool)
     def stop(self,showVideo,showAudio): #TODO function to stop collection
@@ -176,6 +182,29 @@ class CollectionWindow(QObject):
         receiveThread.close()
         self.updateGif.emit("../../images/gifs/logo-white.gif")
 
+class ProgressBarControl(QThread):
+    progress_changed = Signal(float)
+    def __init__(self, tasks=0,taskInterval=0):
+        super().__init__()
+        self.interval = taskInterval
+        self.tasks = tasks
+    
+    @Slot()
+    def run(self):
+        for task in range(self.tasks):
+            for i in range(0,self.interval+1):
+                self.progress_changed.emit((i/self.interval))
+                time.sleep(1)
+            time.sleep(1)
+            self.progress_changed.emit(0)
+            time.sleep(1)
+            self.progress_changed.emit(1)
+            time.sleep(1)
+            self.progress_changed.emit(0)
+            time.sleep(1)
+            self.progress_changed.emit(1)
+            time.sleep(0.6)
+            self.progress_changed.emit(0)
 
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)

@@ -9,9 +9,11 @@ import threads as th
 from datetime import datetime
 from threading import Thread
 from numpy import arange
+from playsound import playsound
 
 from PySide2.QtCore import QObject, Slot, Signal, QThread
 from PySide2.QtGui import QGuiApplication
+from PySide2.QtMultimedia import QSound
 from PySide2.QtQml import QQmlApplicationEngine
 
 #Global variables
@@ -177,6 +179,9 @@ class CollectionWindow(QObject):
             self.worker = ProgressBarControl(len(tasks),taskInterval)
             self.worker.progress_changed.connect(self.progressBarControl)
             self.worker.start()
+
+            # self.sound = SoundBeepControl(len(tasks),taskInterval)
+            # self.sound.run()
             # totalTime = len(tasks)*taskInterval
             # print(totalTime)
             # progressBarThread = Thread(target=self.progressBarControl,args=[totalTime])
@@ -188,7 +193,8 @@ class CollectionWindow(QObject):
         print('im here!!')
         receiveThread.close()
         self.updateGif.emit("../../images/gifs/logo-white.gif")
-        self.worker.terminate()
+        if self.worker.isRunning:
+            self.worker.terminate()
         self.progressBarControl.emit(0)
 
 class ProgressBarControl(QThread):
@@ -215,6 +221,20 @@ class ProgressBarControl(QThread):
             time.sleep(0.6)
             self.progress_changed.emit(0)
 
+# class SoundBeepControl(QSound):
+#     def __init__(self, tasks=0,taskInterval=0):
+#         super().__init__()
+#         self.interval = taskInterval
+#         self.tasks = tasks
+    
+#     def run(self):
+#         for task in range(self.tasks):
+#             for i in arange(0,self.interval,3):
+#                 self.play("sounds/beep-08b.wav")
+#                 print("playing sound")
+#                 time.sleep(2)
+#             time.sleep(5)
+            
 if __name__ == "__main__":
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()

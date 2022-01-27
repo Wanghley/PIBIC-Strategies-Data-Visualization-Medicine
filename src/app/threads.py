@@ -84,7 +84,7 @@ class BluetoothAcquisitionThread(Thread):
         self._stop=True
 
 class DataSavingThread(Thread):
-    def __init__(self, data_buffer, patient, file_path, print_data=False,  header=['time', 'accx', 'accy', 'accz', 'gyx', 'gyy', 'gyz', 'temp']):
+    def __init__(self, data_buffer, patient, file_path, print_data=False,  header=['time', 'accx', 'accy', 'accz', 'gyx', 'gyy', 'gyz', 'temp','signal'],signal=0):
         print('Creating Data Saving Thread')
         # Data buffer
         self.data_buffer = data_buffer
@@ -96,6 +96,7 @@ class DataSavingThread(Thread):
         self._file_path = file_path
         self.patient = patient
         self._header = header
+        self.signal = signal
 
         Thread.__init__(self, name='savingThread')
 
@@ -137,7 +138,7 @@ class DataSavingThread(Thread):
                 if self.print_data:
                     print('-'*10, '\nLength Data Buffer > ',
                           l_buffer, '\n-', '-'*10)
-                self.writeAllCSV(data_tmp)
+                self.writeAllCSV(data_tmp,self.signal)
             else:
                 self.data_buffer.unlock()
             sleep(0.001)
@@ -145,20 +146,20 @@ class DataSavingThread(Thread):
     def changeFileName(self):
         self.file_name_flag = 0
 
-    def writeCSV(self, data):
+    def writeCSV(self, data,signal=0):
         if self.print_data:
             print("DataSavingThread > ", data)
         with open(self._file_path, 'a') as csvfile:
             writer = csv.writer(csvfile)
             data = data.split(',')
             writer.writerow([data[0], data[1], data[2], data[3],
-                             data[4], data[5], data[6], data[7]])
+                             data[4], data[5], data[6], data[7],signal])
 
-    def writeAllCSV(self, data):
+    def writeAllCSV(self, data,signal=0):
         with open(self._file_path, 'a') as csvfile:
             _writer = csv.writer(csvfile)
             _data = list(data)
             for i in range(len(_data)):
                 _tmpdata = _data[i].split(',')
                 _writer.writerow([_tmpdata[0], _tmpdata[1], _tmpdata[2], _tmpdata[3],
-                                  _tmpdata[4], _tmpdata[5], _tmpdata[6], _tmpdata[7]])
+                                  _tmpdata[4], _tmpdata[5], _tmpdata[6], _tmpdata[7],signal])
